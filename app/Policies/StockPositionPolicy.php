@@ -21,6 +21,19 @@ class StockPositionPolicy
     }
 
     /**
+     * Determine whether the user can view the position within their personal portfolio view.
+     * Strictly requires ownership; admin privileges do not bypass this for user portfolio pages.
+     */
+    public function viewPortfolio(User $user, StockPosition $position): bool
+    {
+        if (! $user->isActive()) {
+            return false;
+        }
+
+        return $user->id === $position->user_id;
+    }
+
+    /**
      * Direct creation via HTTP is disallowed; positions are created/updated via core financial engines.
      */
     public function create(User $user): bool

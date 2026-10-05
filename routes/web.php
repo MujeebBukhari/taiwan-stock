@@ -47,6 +47,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     })->name('transactions.index');
 
     Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
+    Route::get('/portfolio/positions/{position}', [PortfolioController::class, 'show'])->name('portfolio.positions.show');
 
     Route::get('/reports', function () {
         return view('reports.index');

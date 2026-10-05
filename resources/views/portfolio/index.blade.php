@@ -308,11 +308,17 @@
 
                                     <!-- Action -->
                                     <td class="py-3 px-4 text-right whitespace-nowrap">
-                                        <a href="{{ route('stocks.show', $position->company) }}"
-                                           class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors">
-                                            <span>Workspace</span>
-                                            <span>&rarr;</span>
-                                        </a>
+                                        <div class="flex items-center justify-end gap-2.5">
+                                            <a href="{{ route('portfolio.positions.show', $position) }}"
+                                               class="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors">
+                                                <span>Details</span>
+                                            </a>
+                                            <a href="{{ route('stocks.show', $position->company) }}"
+                                               class="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 transition-colors">
+                                                <span>Workspace</span>
+                                                <span>&rarr;</span>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

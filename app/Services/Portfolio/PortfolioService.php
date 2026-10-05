@@ -2,8 +2,10 @@
 
 namespace App\Services\Portfolio;
 
+use App\Enums\TransactionType;
 use App\Models\Company;
 use App\Models\StockPosition;
+use App\Models\StockTransaction;
 use App\Models\User;
 use App\Services\Financial\FinancialMath;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -186,5 +188,94 @@ class PortfolioService
             'exchanges' => $exchangeQuery->pluck('exchange')->values()->all(),
             'sectors' => $sectorQuery->pluck('sector')->values()->all(),
         ];
+    }
+
+    /**
+     * Compute transaction aggregate summary for a specific position/company of a user.
+     *
+     * @return array{
+     *     total_buy_quantity: string,
+     *     total_buy_amount: string,
+     *     total_sell_quantity: string,
+     *     total_sell_amount: string,
+     *     total_sell_cost: string,
+     *     total_realized_profit: string,
+     *     buy_transactions_count: int,
+     *     sell_transactions_count: int
+     * }
+     */
+    public function getPositionTransactionSummary(StockPosition $position): array
+    {
+        $transactions = StockTransaction::query()
+            ->where('user_id', $position->user_id)
+            ->where('company_id', $position->company_id)
+            ->get(['type', 'quantity', 'amount', 'cost', 'realized_profit']);
+
+        $totalBuyQuantity = '0.00000000';
+        $totalBuyAmount = '0.00000000';
+        $totalSellQuantity = '0.00000000';
+        $totalSellAmount = '0.00000000';
+        $totalSellCost = '0.00000000';
+        $totalRealizedProfit = '0.00000000';
+        $buyCount = 0;
+        $sellCount = 0;
+
+        foreach ($transactions as $tx) {
+            $qty = (string) $tx->quantity;
+            $amt = (string) $tx->amount;
+            $cost = (string) $tx->cost;
+            $profit = (string) $tx->realized_profit;
+
+            if ($tx->type->isBuy()) {
+                $buyCount++;
+                $totalBuyQuantity = FinancialMath::add($totalBuyQuantity, $qty, FinancialMath::DEFAULT_SCALE);
+                $totalBuyAmount = FinancialMath::add($totalBuyAmount, $amt, FinancialMath::DEFAULT_SCALE);
+            } elseif ($tx->type->isSell()) {
+                $sellCount++;
+                $totalSellQuantity = FinancialMath::add($totalSellQuantity, $qty, FinancialMath::DEFAULT_SCALE);
+                $totalSellAmount = FinancialMath::add($totalSellAmount, $amt, FinancialMath::DEFAULT_SCALE);
+                $totalSellCost = FinancialMath::add($totalSellCost, $cost, FinancialMath::DEFAULT_SCALE);
+                $totalRealizedProfit = FinancialMath::add($totalRealizedProfit, $profit, FinancialMath::DEFAULT_SCALE);
+            }
+        }
+
+        return [
+            'total_buy_quantity' => $totalBuyQuantity,
+            'total_buy_amount' => $totalBuyAmount,
+            'total_sell_quantity' => $totalSellQuantity,
+            'total_sell_amount' => $totalSellAmount,
+            'total_sell_cost' => $totalSellCost,
+            'total_realized_profit' => $totalRealizedProfit,
+            'buy_transactions_count' => $buyCount,
+            'sell_transactions_count' => $sellCount,
+        ];
+    }
+
+    /**
+     * Get paginated ledger transactions for this position (newest first).
+     */
+    public function getPositionTransactions(StockPosition $position, int $perPage = 15): LengthAwarePaginator
+    {
+        return StockTransaction::query()
+            ->where('user_id', $position->user_id)
+            ->where('company_id', $position->company_id)
+            ->orderByDesc('transaction_date')
+            ->orderByDesc('id')
+            ->paginate($perPage)
+            ->withQueryString();
+    }
+
+    /**
+     * Get SELL transactions for this position for realized profit breakdown (newest first).
+     */
+    public function getPositionSellTransactions(StockPosition $position): Collection
+    {
+        return StockTransaction::query()
+            ->where('user_id', $position->user_id)
+            ->where('company_id', $position->company_id)
+            ->where('type', TransactionType::SELL)
+            ->orderByDesc('transaction_date')
+            ->orderByDesc('id')
+            ->get();
     }
 }
