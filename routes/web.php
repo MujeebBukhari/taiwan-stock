@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockTransactionController;
 use App\Http\Controllers\StockWorkspaceController;
@@ -45,9 +46,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         return view('transactions.index');
     })->name('transactions.index');
 
-    Route::get('/portfolio', function () {
-        return view('portfolio.index');
-    })->name('portfolio.index');
+    Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
 
     Route::get('/reports', function () {
         return view('reports.index');

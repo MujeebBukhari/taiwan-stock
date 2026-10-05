@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Financial\FinancialMath;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -99,5 +100,29 @@ class StockPosition extends Model
         $companyId = is_object($company) ? $company->id : $company;
 
         return $query->where('company_id', $companyId);
+    }
+
+    /**
+     * Determine whether the position currently holds shares (quantity > 0).
+     */
+    public function isHolding(): bool
+    {
+        return FinancialMath::greaterThan((string) $this->quantity, '0');
+    }
+
+    /**
+     * Determine whether the position has zero or empty inventory.
+     */
+    public function isZero(): bool
+    {
+        return ! $this->isHolding();
+    }
+
+    /**
+     * Get human-readable status label ('Holding' or 'Zero').
+     */
+    public function status(): string
+    {
+        return $this->isHolding() ? 'Holding' : 'Zero';
     }
 }
