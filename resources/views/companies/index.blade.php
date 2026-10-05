@@ -120,9 +120,7 @@
                             <th class="py-3 px-4">Sector</th>
                             <th class="py-3 px-4">Currency</th>
                             <th class="py-3 px-4 text-center">Status</th>
-                            @can('manage-stocks')
-                                <th class="py-3 px-4 text-right">Actions</th>
-                            @endcan
+                            <th class="py-3 px-4 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -132,12 +130,14 @@
                                     {{ $companies->firstItem() + $index }}
                                 </td>
                                 <td class="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700">
+                                    <a href="{{ route('stocks.show', $company) }}" class="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:border-emerald-500 hover:text-emerald-600 transition-colors">
                                         {{ $company->symbol }}
-                                    </span>
+                                    </a>
                                 </td>
                                 <td class="py-3 px-4 font-medium text-slate-800 dark:text-slate-200">
-                                    {{ $company->name }}
+                                    <a href="{{ route('stocks.show', $company) }}" class="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline transition-colors">
+                                        {{ $company->name }}
+                                    </a>
                                 </td>
                                 <td class="py-3 px-4 text-slate-600 dark:text-slate-300 font-medium">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold {{ $company->exchange === 'PSX' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800' : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800' }}">
@@ -161,9 +161,14 @@
                                         </span>
                                     @endif
                                 </td>
-                                @can('manage-stocks')
-                                    <td class="py-3 px-4 text-right">
-                                        <div class="inline-flex items-center gap-2">
+                                <td class="py-3 px-4 text-right">
+                                    <div class="inline-flex items-center gap-2">
+                                        <a href="{{ route('stocks.show', $company) }}"
+                                           class="px-2.5 py-1 text-xs font-semibold rounded text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 transition-colors">
+                                            Workspace
+                                        </a>
+
+                                        @can('manage-stocks')
                                             <a href="{{ route('admin.companies.edit', $company) }}"
                                                class="px-2.5 py-1 text-xs font-semibold rounded text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                                                 Edit
@@ -177,9 +182,9 @@
                                                     {{ $company->is_active ? 'Deactivate' : 'Activate' }}
                                                 </button>
                                             </form>
-                                        </div>
-                                    </td>
-                                @endcan
+                                        @endcan
+                                    </div>
+                                </td>
                             </tr>
                         @empty
                             <tr>

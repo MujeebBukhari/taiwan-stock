@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StockWorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,6 +18,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
     // Companies viewable by authenticated users (Active only for normal users, searchable & filterable)
     Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
+
+    // Stock Workspace for individual company holdings and transaction history
+    Route::get('/stocks/{company}', [StockWorkspaceController::class, 'show'])->name('stocks.show');
 
     // Admin Company Management (strictly restricted to administrators)
     Route::middleware('can:manage-stocks')->prefix('admin')->name('admin.')->group(function () {
