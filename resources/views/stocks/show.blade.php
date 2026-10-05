@@ -52,9 +52,19 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2 self-start sm:self-center">
-                    <span class="text-xs text-slate-400">Investor:</span>
-                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ auth()->user()->name }}</span>
+                <div class="flex items-center gap-4 self-start sm:self-center">
+                    <div class="hidden sm:block text-right">
+                        <span class="block text-[11px] text-slate-400">Investor</span>
+                        <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ auth()->user()->name }}</span>
+                    </div>
+
+                    <a href="{{ route('stocks.buy.create', $company) }}"
+                       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span>Execute BUY</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -180,7 +190,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                     </svg>
                                     <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">No transactions recorded yet</p>
-                                    <p class="text-xs text-slate-400 mt-1">Transaction entries will appear here once BUY or SELL orders are executed in Phase 3B.</p>
+                                    <p class="text-xs text-slate-400 mt-1">Transaction entries will appear here once BUY or SELL orders are recorded.</p>
                                 </td>
                             </tr>
                         @endforelse

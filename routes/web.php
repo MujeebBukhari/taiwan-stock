@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StockTransactionController;
 use App\Http\Controllers\StockWorkspaceController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,10 @@ Route::middleware(['auth', 'active'])->group(function () {
 
     // Stock Workspace for individual company holdings and transaction history
     Route::get('/stocks/{company}', [StockWorkspaceController::class, 'show'])->name('stocks.show');
+
+    // BUY Transaction Routes
+    Route::get('/stocks/{company}/buy', [StockTransactionController::class, 'create'])->name('stocks.buy.create');
+    Route::post('/stocks/{company}/buy', [StockTransactionController::class, 'store'])->name('stocks.buy.store');
 
     // Admin Company Management (strictly restricted to administrators)
     Route::middleware('can:manage-stocks')->prefix('admin')->name('admin.')->group(function () {
