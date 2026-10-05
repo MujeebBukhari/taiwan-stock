@@ -689,7 +689,8 @@ class PortfolioReportsTest extends TestCase
         $response = $this->actingAs($this->userA)->get(route('reports.index'));
         $response->assertOk();
         $response->assertDontSee('Pfizer Inc.');
-        $response->assertDontSee('PFE');
+        $response->assertViewHas('companyWiseReport', fn ($report) => count($report) === 0);
+        $response->assertViewHas('realizedProfitAnalysis', fn ($analysis) => count($analysis) === 0);
 
         $activity = $this->reportService->getTransactionActivity($this->userA);
         $this->assertSame(0, $activity['total_transactions']);

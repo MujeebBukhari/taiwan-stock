@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\Portfolio\PortfolioReportService;
+use App\Services\Reports\ReportExportService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ReportController extends Controller
 {
@@ -13,25 +16,8 @@ class ReportController extends Controller
      */
     public function index(Request $request, PortfolioReportService $reportService): View
     {
-        $validated = $request->validate([
-            'date_from' => ['nullable', 'date'],
-            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
-            'company_id' => ['nullable', 'exists:companies,id'],
-            'exchange' => ['nullable', 'string'],
-            'sector' => ['nullable', 'string'],
-            'type' => ['nullable', 'string', 'in:all,BUY,SELL,buy,sell'],
-        ]);
-
+        $filters = $this->extractValidatedFilters($request);
         $user = $request->user();
-
-        $filters = [
-            'date_from' => $validated['date_from'] ?? null,
-            'date_to' => $validated['date_to'] ?? null,
-            'company_id' => $validated['company_id'] ?? null,
-            'exchange' => $validated['exchange'] ?? null,
-            'sector' => $validated['sector'] ?? null,
-            'type' => $validated['type'] ?? 'all',
-        ];
 
         // 1. Authoritative portfolio current metrics (reused from PortfolioService)
         $portfolioSummary = $reportService->getPortfolioSummary($user);
@@ -64,5 +50,58 @@ class ReportController extends Controller
             'realizedProfitAnalysis' => $realizedProfitAnalysis,
             'filterOptions' => $filterOptions,
         ]);
+    }
+
+    /**
+     * Export reports as an Excel workbook (.xlsx).
+     */
+    public function exportExcel(Request $request, ReportExportService $exportService): BinaryFileResponse
+    {
+        $filters = $this->extractValidatedFilters($request);
+
+        return $exportService->exportExcel($request->user(), $filters);
+    }
+
+    /**
+     * Export reports as a landscape PDF document (.pdf).
+     */
+    public function exportPdf(Request $request, ReportExportService $exportService): Response
+    {
+        $filters = $this->extractValidatedFilters($request);
+
+        return $exportService->exportPdf($request->user(), $filters);
+    }
+
+    /**
+     * Validate and normalize filter inputs across web and export actions.
+     *
+     * @return array{
+     *     date_from: ?string,
+     *     date_to: ?string,
+     *     company_id: ?int,
+     *     exchange: ?string,
+     *     sector: ?string,
+     *     type: string
+     * }
+     */
+    protected function extractValidatedFilters(Request $request): array
+    {
+        $validated = $request->validate([
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+            'company_id' => ['nullable', 'exists:companies,id'],
+            'exchange' => ['nullable', 'string'],
+            'sector' => ['nullable', 'string'],
+            'type' => ['nullable', 'string', 'in:all,BUY,SELL,buy,sell'],
+        ]);
+
+        return [
+            'date_from' => $validated['date_from'] ?? null,
+            'date_to' => $validated['date_to'] ?? null,
+            'company_id' => isset($validated['company_id']) ? (int) $validated['company_id'] : null,
+            'exchange' => $validated['exchange'] ?? null,
+            'sector' => $validated['sector'] ?? null,
+            'type' => $validated['type'] ?? 'all',
+        ];
     }
 }
