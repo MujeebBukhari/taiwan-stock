@@ -27,6 +27,10 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/stocks/{company}/buy', [StockTransactionController::class, 'create'])->name('stocks.buy.create');
     Route::post('/stocks/{company}/buy', [StockTransactionController::class, 'store'])->name('stocks.buy.store');
 
+    // SELL Transaction Routes
+    Route::get('/stocks/{company}/sell', [StockTransactionController::class, 'createSell'])->name('stocks.sell.create');
+    Route::post('/stocks/{company}/sell', [StockTransactionController::class, 'storeSell'])->name('stocks.sell.store');
+
     // Admin Company Management (strictly restricted to administrators)
     Route::middleware('can:manage-stocks')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
