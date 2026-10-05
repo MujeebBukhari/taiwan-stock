@@ -41,13 +41,22 @@
                     <span>Dashboard</span>
                 </a>
 
-                <a href="{{ route('stocks.index') }}"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('stocks.*') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    <span>Stocks</span>
-                </a>
+                <!-- Stocks Submenu -->
+                <div class="space-y-1">
+                    <div class="flex items-center gap-3 px-3 pt-2 pb-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span>Stocks</span>
+                    </div>
+                    <div class="ml-4 pl-2 border-l border-slate-800 space-y-1">
+                        <a href="{{ route('companies.index') }}"
+                           class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-colors {{ request()->routeIs('companies.*') || request()->routeIs('admin.companies.*') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                            <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('companies.*') || request()->routeIs('admin.companies.*') ? 'bg-white' : 'bg-slate-500' }}"></span>
+                            <span>Companies</span>
+                        </a>
+                    </div>
+                </div>
 
                 <a href="{{ route('transactions.index') }}"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('transactions.*') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
