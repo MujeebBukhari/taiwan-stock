@@ -47,6 +47,13 @@ return [
             'report' => false,
         ],
 
+        'exports' => [
+            'driver' => 'local',
+            'root' => env('EXPORT_STORAGE_PATH', storage_path('app/exports')),
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

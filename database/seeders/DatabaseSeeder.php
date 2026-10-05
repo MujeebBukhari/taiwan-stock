@@ -17,9 +17,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@stockportfolio.local'],
+            [
+                'name' => 'System Administrator',
+                'password' => 'password123',
+                'role' => User::ROLE_ADMIN,
+                'is_active' => true,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'user@stockportfolio.local'],
+            [
+                'name' => 'Standard Investor',
+                'password' => 'password123',
+                'role' => User::ROLE_USER,
+                'is_active' => true,
+            ]
+        );
     }
 }
