@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockTransactionController;
 use App\Http\Controllers\StockWorkspaceController;
 use Illuminate\Support\Facades\Route;
@@ -49,9 +50,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
     Route::get('/portfolio/positions/{position}', [PortfolioController::class, 'show'])->name('portfolio.positions.show');
 
-    Route::get('/reports', function () {
-        return view('reports.index');
-    })->name('reports.index');
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
     Route::get('/settings', function () {
         return view('settings.index');
