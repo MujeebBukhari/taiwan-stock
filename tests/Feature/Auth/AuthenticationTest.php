@@ -87,4 +87,69 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
         $response->assertRedirect('/');
     }
+
+    public function test_authenticated_users_are_redirected_away_from_login_screen(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/login');
+
+        $response->assertRedirect(route('dashboard', absolute: false));
+    }
+
+    public function test_login_validation_requires_email_and_password(): void
+    {
+        $response = $this->post('/login', [
+            'email' => '',
+            'password' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['email', 'password']);
+        $this->assertGuest();
+    }
+
+    public function test_inactive_user_cannot_authenticate(): void
+    {
+        $user = User::factory()->inactive()->create([
+            'email' => 'inactive.login@example.com',
+            'password' => 'password',
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => 'inactive.login@example.com',
+            'password' => 'password',
+        ]);
+
+        $this->assertGuest();
+        $response->assertSessionHasErrors(['email']);
+    }
+
+    public function test_registration_route_remains_unavailable(): void
+    {
+        $response = $this->get('/register');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_login_page_does_not_expose_registration_calls_to_action(): void
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('Register');
+        $response->assertDontSee('Create Account');
+        $response->assertDontSee('Sign Up');
+    }
+
+    public function test_login_page_renders_stocksystem_branding_and_features(): void
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
+        $response->assertSee('StockSystem');
+        $response->assertSee('Portfolio & Ledger');
+        $response->assertSee('Weighted Average Cost');
+        $response->assertSee('showPassword');
+        $response->assertSee('Remember me');
+    }
 }
