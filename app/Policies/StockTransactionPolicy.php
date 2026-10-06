@@ -17,7 +17,7 @@ class StockTransactionPolicy
             return false;
         }
 
-        return $user->isAdmin() || $user->id === $transaction->user_id;
+        return $user->id === $transaction->user_id;
     }
 
     /**

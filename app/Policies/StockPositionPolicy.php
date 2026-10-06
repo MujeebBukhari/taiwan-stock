@@ -17,7 +17,7 @@ class StockPositionPolicy
             return false;
         }
 
-        return $user->isAdmin() || $user->id === $position->user_id;
+        return $user->id === $position->user_id;
     }
 
     /**
