@@ -111,7 +111,7 @@ class PortfolioAnalyticsService
      *     total_realized_profit: string
      * }
      */
-    public function getMonthlyRealizedProfitChart(User $user, array $filters = []): array
+    public function getMonthlyRealizedProfitChart(User $user, array $filters = [], ?int $limitMonths = null): array
     {
         // If explicitly filtered to BUY only, realized profit is empty
         if (! empty($filters['type']) && strtoupper((string) $filters['type']) === TransactionType::BUY->value) {
@@ -131,6 +131,10 @@ class PortfolioAnalyticsService
         }
 
         $monthlyReport = $this->reportService->getMonthlyReport($user, $filters);
+
+        if ($limitMonths !== null && count($monthlyReport) > $limitMonths) {
+            $monthlyReport = array_slice($monthlyReport, -$limitMonths);
+        }
 
         $labels = [];
         $profitData = [];
