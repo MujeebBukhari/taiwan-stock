@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\StockPosition;
 use App\Models\StockTransaction;
+use App\Services\MarketData\MarketDataService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -17,7 +18,7 @@ class StockWorkspaceController extends Controller
      * Note: No financial calculations are performed here; position data
      * will be populated by the future BUY/SELL transaction engine.
      */
-    public function show(Request $request, Company $company): View
+    public function show(Request $request, Company $company, MarketDataService $marketDataService): View
     {
         $user = $request->user();
 
@@ -41,10 +42,14 @@ class StockWorkspaceController extends Controller
             ->paginate(20)
             ->withQueryString();
 
+        // Retrieve current market quote (cached)
+        $marketQuote = $marketDataService->getQuote($company);
+
         return view('stocks.show', [
             'company' => $company,
             'position' => $position,
             'transactions' => $transactions,
+            'marketQuote' => $marketQuote,
         ]);
     }
 }

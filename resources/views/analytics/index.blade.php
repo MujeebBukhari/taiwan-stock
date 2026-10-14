@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        Analytics &bull; Visual Ledger &amp; Cost Basis Analytics
+        {{ __('analytics.title') }} &bull; {{ __('analytics.visual_ledger_desc') }}
     </x-slot>
 
     <div class="space-y-6">
@@ -8,22 +8,22 @@
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-700">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Portfolio Visual Analytics</h2>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">{{ __('analytics.visual_analytics') }}</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        Historical trading activity, realized profit trends, and current inventory cost basis distribution.
+                        {{ __('analytics.visual_analytics_desc') }}
                     </p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
-                        Accounting Basis: Weighted Average Cost (WAC)
+                        {{ __('analytics.accounting_basis_wac') }}
                     </span>
                 </div>
             </div>
 
             @if ($errors->any())
                 <div class="mt-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-xs text-red-700 dark:text-red-300">
-                    <p class="font-bold mb-1">Filter Validation Error:</p>
+                    <p class="font-bold mb-1">{{ __('analytics.filter_validation_error') }}</p>
                     <ul class="list-disc list-inside space-y-0.5">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -37,7 +37,7 @@
                 <!-- Date From -->
                 <div>
                     <label for="date_from" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        From Date
+                        {{ __('analytics.from_date') }}
                     </label>
                     <input type="date"
                            id="date_from"
@@ -49,7 +49,7 @@
                 <!-- Date To -->
                 <div>
                     <label for="date_to" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        To Date
+                        {{ __('analytics.to_date') }}
                     </label>
                     <input type="date"
                            id="date_to"
@@ -61,12 +61,12 @@
                 <!-- Company Dropdown -->
                 <div>
                     <label for="company_id" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Company
+                        {{ __('common.company') }}
                     </label>
                     <select id="company_id"
                             name="company_id"
                             class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                        <option value="">All Companies</option>
+                        <option value="">{{ __('analytics.all_companies') }}</option>
                         @foreach ($filterOptions['companies'] as $comp)
                             <option value="{{ $comp->id }}" {{ ($filters['company_id'] ?? '') == $comp->id ? 'selected' : '' }}>
                                 {{ $comp->symbol }} - {{ $comp->name }}
@@ -78,12 +78,12 @@
                 <!-- Exchange Dropdown -->
                 <div>
                     <label for="exchange" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Exchange
+                        {{ __('companies.exchange') }}
                     </label>
                     <select id="exchange"
                             name="exchange"
                             class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                        <option value="">All Exchanges</option>
+                        <option value="">{{ __('analytics.all_exchanges') }}</option>
                         @foreach ($filterOptions['exchanges'] as $exchangeOption)
                             <option value="{{ $exchangeOption }}" {{ ($filters['exchange'] ?? '') === $exchangeOption ? 'selected' : '' }}>
                                 {{ $exchangeOption }}
@@ -95,12 +95,12 @@
                 <!-- Sector Dropdown -->
                 <div>
                     <label for="sector" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Sector
+                        {{ __('companies.sector') }}
                     </label>
                     <select id="sector"
                             name="sector"
                             class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                        <option value="">All Sectors</option>
+                        <option value="">{{ __('analytics.all_sectors') }}</option>
                         @foreach ($filterOptions['sectors'] as $sectorOption)
                             <option value="{{ $sectorOption }}" {{ ($filters['sector'] ?? '') === $sectorOption ? 'selected' : '' }}>
                                 {{ $sectorOption }}
@@ -112,26 +112,26 @@
                 <!-- Transaction Type & Submit Button -->
                 <div>
                     <label for="type" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Tx Type
+                        {{ __('analytics.tx_type') }}
                     </label>
                     <div class="flex items-center gap-1.5">
                         <select id="type"
                                 name="type"
                                 class="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                            <option value="all" {{ ($filters['type'] ?? 'all') === 'all' ? 'selected' : '' }}>All Types</option>
-                            <option value="BUY" {{ strtoupper($filters['type'] ?? '') === 'BUY' ? 'selected' : '' }}>BUY Only</option>
-                            <option value="SELL" {{ strtoupper($filters['type'] ?? '') === 'SELL' ? 'selected' : '' }}>SELL Only</option>
+                            <option value="all" {{ ($filters['type'] ?? 'all') === 'all' ? 'selected' : '' }}>{{ __('analytics.all_types') }}</option>
+                            <option value="BUY" {{ strtoupper($filters['type'] ?? '') === 'BUY' ? 'selected' : '' }}>{{ __('analytics.buy_only') }}</option>
+                            <option value="SELL" {{ strtoupper($filters['type'] ?? '') === 'SELL' ? 'selected' : '' }}>{{ __('analytics.sell_only') }}</option>
                         </select>
 
                         <button type="submit"
                                 class="px-3 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors">
-                            Apply
+                            {{ __('analytics.apply') }}
                         </button>
 
                         @if (!empty($filters['date_from']) || !empty($filters['date_to']) || !empty($filters['company_id']) || !empty($filters['exchange']) || !empty($filters['sector']) || (($filters['type'] ?? 'all') !== 'all'))
                             <a href="{{ route('analytics.index') }}"
-                               title="Reset Filters"
-                                class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                               title="{{ __('analytics.reset_filters') }}"
+                               class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -145,52 +145,52 @@
         <!-- 1. Top Summary Cards -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                <span class="block text-[11px] font-semibold uppercase text-slate-400">BUY Orders</span>
+                <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.buy_orders') }}</span>
                 <span class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-1 block">
                     {{ $summaryMetrics['total_buy_transactions'] }}
                 </span>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Purchases executed</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.purchases_executed') }}</span>
             </div>
 
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                <span class="block text-[11px] font-semibold uppercase text-slate-400">SELL Orders</span>
+                <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.sell_orders') }}</span>
                 <span class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-1 block">
                     {{ $summaryMetrics['total_sell_transactions'] }}
                 </span>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Sales executed</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.sales_executed') }}</span>
             </div>
 
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                <span class="block text-[11px] font-semibold uppercase text-slate-400">Realized Profit / Loss</span>
+                <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.realized_pl') }}</span>
                 @php $totProf = (float) $summaryMetrics['total_realized_profit']; @endphp
                 <span class="text-xl font-bold font-mono mt-1 block {{ $totProf > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($totProf < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
                     {{ $totProf > 0 ? '+' : '' }}{{ number_format($totProf, 2) }}
                 </span>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Closed positions P&amp;L</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.closed_positions_pl') }}</span>
             </div>
 
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                <span class="block text-[11px] font-semibold uppercase text-slate-400">Inventory Cost Basis</span>
+                <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.inventory_cost_basis') }}</span>
                 <span class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-1 block">
                     {{ number_format((float) $summaryMetrics['total_inventory_cost'], 2) }}
                 </span>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Active acquisition cost</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.active_acquisition_cost') }}</span>
             </div>
 
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                <span class="block text-[11px] font-semibold uppercase text-slate-400">Active Positions</span>
+                <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.active_positions') }}</span>
                 <span class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-1 block">
                     {{ $summaryMetrics['active_positions_count'] }}
                 </span>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Holdings with Qty &gt; 0</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.holdings_qty_gt_zero') }}</span>
             </div>
 
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                <span class="block text-[11px] font-semibold uppercase text-slate-400">Companies Held</span>
+                <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.companies_held') }}</span>
                 <span class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-1 block">
                     {{ $summaryMetrics['companies_held_count'] }}
                 </span>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Distinct stocks tracked</span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.distinct_stocks_tracked') }}</span>
             </div>
         </div>
 
@@ -200,9 +200,9 @@
             <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Monthly Trading Activity</h3>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('analytics.monthly_trading_activity') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            Transaction volume count per calendar month (BUY vs SELL).
+                            {{ __('analytics.monthly_trading_desc') }}
                         </p>
                     </div>
                 </div>
@@ -215,8 +215,8 @@
                             <svg class="w-10 h-10 mb-2 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
-                            <p class="text-xs font-semibold">No monthly transaction activity found.</p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Transactions matching active filters will appear here.</p>
+                            <p class="text-xs font-semibold">{{ __('analytics.no_monthly_tx') }}</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">{{ __('analytics.no_monthly_tx_desc') }}</p>
                         </div>
                     @endif
                 </div>
@@ -226,9 +226,9 @@
             <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Monthly Realized Profit / Loss</h3>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('analytics.monthly_realized_pl') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            Realized net return from closed sales grouped by calendar month.
+                            {{ __('analytics.monthly_realized_desc') }}
                         </p>
                     </div>
                 </div>
@@ -241,8 +241,8 @@
                             <svg class="w-10 h-10 mb-2 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
-                            <p class="text-xs font-semibold">No monthly realized profit records found.</p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Realized gains and losses from SELL orders will populate this chart.</p>
+                            <p class="text-xs font-semibold">{{ __('analytics.no_monthly_pl') }}</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">{{ __('analytics.no_monthly_pl_desc') }}</p>
                         </div>
                     @endif
                 </div>
@@ -255,9 +255,9 @@
             <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Realized Profit / Loss by Company</h3>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('analytics.realized_pl_by_company') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            Cumulative realized profit or loss per stock from closed sales.
+                            {{ __('analytics.realized_pl_company_desc') }}
                         </p>
                     </div>
                 </div>
@@ -270,8 +270,8 @@
                             <svg class="w-10 h-10 mb-2 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <p class="text-xs font-semibold">No closed positions for company profit breakdown.</p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Execute SELL orders to view company-wise realized performance.</p>
+                            <p class="text-xs font-semibold">{{ __('analytics.no_closed_positions') }}</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">{{ __('analytics.no_closed_positions_desc') }}</p>
                         </div>
                     @endif
                 </div>
@@ -281,12 +281,12 @@
                         <table class="w-full text-left text-xs">
                             <thead>
                                 <tr class="text-slate-400 uppercase text-[10px] border-b border-slate-200 dark:border-slate-700 pb-1">
-                                    <th class="py-1">Symbol</th>
-                                    <th class="py-1">Company</th>
-                                    <th class="py-1 text-center">Orders</th>
-                                    <th class="py-1 text-right">Revenue</th>
-                                    <th class="py-1 text-right">Cost Basis</th>
-                                    <th class="py-1 text-right">Profit / (Loss)</th>
+                                    <th class="py-1">{{ __('common.symbol') }}</th>
+                                    <th class="py-1">{{ __('common.company') }}</th>
+                                    <th class="py-1 text-center">{{ __('analytics.orders') }}</th>
+                                    <th class="py-1 text-right">{{ __('analytics.revenue') }}</th>
+                                    <th class="py-1 text-right">{{ __('analytics.cost_basis') }}</th>
+                                    <th class="py-1 text-right">{{ __('analytics.profit_loss') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
@@ -313,13 +313,13 @@
             <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Inventory Cost Basis by Company</h3>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('analytics.inventory_cost_basis_by_company') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            Capital allocated to currently held positions based on Weighted Average Cost (WAC).
+                            {{ __('analytics.inventory_cost_company_desc') }}
                         </p>
                     </div>
                     <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
-                        Total: {{ number_format((float) $costBasisDistribution['total_cost_basis'], 2) }}
+                        {{ __('common.total') }}: {{ number_format((float) $costBasisDistribution['total_cost_basis'], 2) }}
                     </span>
                 </div>
 
@@ -332,8 +332,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                             </svg>
-                            <p class="text-xs font-semibold">No active stock positions in inventory.</p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Execute BUY orders to build portfolio inventory.</p>
+                            <p class="text-xs font-semibold">{{ __('analytics.no_active_positions') }}</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">{{ __('analytics.no_active_positions_desc') }}</p>
                         </div>
                     @endif
                 </div>
@@ -343,11 +343,11 @@
                         <table class="w-full text-left text-xs">
                             <thead>
                                 <tr class="text-slate-400 uppercase text-[10px] border-b border-slate-200 dark:border-slate-700 pb-1">
-                                    <th class="py-1">Symbol</th>
-                                    <th class="py-1">Company</th>
-                                    <th class="py-1 text-right">Shares</th>
-                                    <th class="py-1 text-right">Avg Price (WAC)</th>
-                                    <th class="py-1 text-right">Cost Basis</th>
+                                    <th class="py-1">{{ __('common.symbol') }}</th>
+                                    <th class="py-1">{{ __('common.company') }}</th>
+                                    <th class="py-1 text-right">{{ __('analytics.shares') }}</th>
+                                    <th class="py-1 text-right">{{ __('analytics.avg_price_wac') }}</th>
+                                    <th class="py-1 text-right">{{ __('analytics.cost_basis') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
@@ -373,13 +373,13 @@
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Transaction Distribution</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('analytics.transaction_distribution') }}</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Proportion of BUY versus SELL orders across matching transaction records.
+                        {{ __('analytics.transaction_dist_desc') }}
                     </p>
                 </div>
                 <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
-                    Total: {{ $transactionDistribution['total_count'] }} Order(s)
+                    {{ __('common.total') }}: {{ $transactionDistribution['total_count'] }} {{ __('analytics.orders_count_suffix') }}
                 </span>
             </div>
 
@@ -389,7 +389,7 @@
                         <canvas id="txDistributionChart"></canvas>
                     @else
                         <div class="flex flex-col items-center justify-center h-full text-center text-slate-400">
-                            <p class="text-xs font-semibold">No transaction records found.</p>
+                            <p class="text-xs font-semibold">{{ __('analytics.no_tx_records') }}</p>
                         </div>
                     @endif
                 </div>
@@ -397,7 +397,7 @@
                 <div class="md:col-span-2 grid grid-cols-2 gap-4">
                     <div class="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">BUY Transactions</span>
+                            <span class="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">{{ __('analytics.buy_transactions') }}</span>
                             <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
                         </div>
                         <span class="text-2xl font-bold font-mono text-emerald-900 dark:text-emerald-100 mt-2 block">
@@ -409,13 +409,13 @@
                                 : 0;
                         @endphp
                         <span class="text-xs text-emerald-700 dark:text-emerald-400 mt-1 block">
-                            {{ $buyPct }}% of total volume
+                            {{ $buyPct }}{{ __('analytics.pct_of_total_volume') }}
                         </span>
                     </div>
 
                     <div class="p-4 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-rose-800 dark:text-rose-300 uppercase tracking-wider">SELL Transactions</span>
+                            <span class="text-xs font-bold text-rose-800 dark:text-rose-300 uppercase tracking-wider">{{ __('analytics.sell_transactions') }}</span>
                             <span class="w-3 h-3 rounded-full bg-rose-500"></span>
                         </div>
                         <span class="text-2xl font-bold font-mono text-rose-900 dark:text-rose-100 mt-2 block">
@@ -427,7 +427,7 @@
                                 : 0;
                         @endphp
                         <span class="text-xs text-rose-700 dark:text-rose-400 mt-1 block">
-                            {{ $sellPct }}% of total volume
+                            {{ $sellPct }}{{ __('analytics.pct_of_total_volume') }}
                         </span>
                     </div>
                 </div>

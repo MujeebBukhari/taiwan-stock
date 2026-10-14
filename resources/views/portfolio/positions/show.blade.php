@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        Position Detail &bull; {{ $company->symbol }}
+        {{ __('portfolio.position_detail') }} &bull; {{ $company->symbol }}
     </x-slot>
 
     <div class="space-y-6">
@@ -10,7 +10,7 @@
                 <div class="flex items-start sm:items-center gap-4">
                     <a href="{{ route('portfolio.index') }}"
                        class="mt-1 sm:mt-0 p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                       title="Back to Portfolio">
+                       title="{{ __('portfolio.back_to_portfolio') }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
@@ -24,28 +24,28 @@
                             </span>
                             @if ($company->is_active)
                                 <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                                    Active
+                                    {{ __('common.active') }}
                                 </span>
                             @else
                                 <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                                    Inactive
+                                    {{ __('common.inactive') }}
                                 </span>
                             @endif
                         </div>
 
                         <div class="flex items-center gap-4 mt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
                             <span class="flex items-center gap-1">
-                                <span class="text-slate-400">Exchange:</span>
+                                <span class="text-slate-400">{{ __('portfolio.exchange') }}:</span>
                                 <span class="text-slate-700 dark:text-slate-200 font-semibold">{{ $company->exchange }}</span>
                             </span>
                             <span>&bull;</span>
                             <span class="flex items-center gap-1">
-                                <span class="text-slate-400">Sector:</span>
-                                <span class="text-slate-700 dark:text-slate-200 font-semibold">{{ $company->sector ?? 'Unspecified' }}</span>
+                                <span class="text-slate-400">{{ __('portfolio.sector') }}:</span>
+                                <span class="text-slate-700 dark:text-slate-200 font-semibold">{{ $company->sector ?? __('stocks.unspecified') }}</span>
                             </span>
                             <span>&bull;</span>
                             <span class="flex items-center gap-1">
-                                <span class="text-slate-400">Currency:</span>
+                                <span class="text-slate-400">{{ __('stocks.currency') }}:</span>
                                 <span class="font-mono text-slate-700 dark:text-slate-200 font-semibold">{{ $company->currency }}</span>
                             </span>
                         </div>
@@ -56,7 +56,7 @@
                 <div class="flex items-center gap-2 self-start lg:self-center flex-wrap">
                     <a href="{{ route('stocks.show', $company) }}"
                        class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors">
-                        <span>Workspace</span>
+                        <span>{{ __('stocks.workspace') }}</span>
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
@@ -67,7 +67,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
-                        <span>BUY Stock</span>
+                        <span>{{ __('transactions.buy_stock') }}</span>
                     </a>
 
                     @if ($position->isHolding())
@@ -76,17 +76,17 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                             </svg>
-                            <span>SELL Stock</span>
+                            <span>{{ __('transactions.sell_stock') }}</span>
                         </a>
                     @else
                         <button type="button"
                                 disabled
-                                title="Cannot sell: available quantity is zero"
+                                title="{{ __('stocks.no_shares_to_sell') }}"
                                 class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-not-allowed opacity-60">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                             </svg>
-                            <span>SELL Stock</span>
+                            <span>{{ __('transactions.sell_stock') }}</span>
                         </button>
                     @endif
                 </div>
@@ -99,63 +99,63 @@
             <div class="p-5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Current Quantity
+                        {{ __('portfolio.current_quantity') }}
                     </span>
                     @if ($position->isHolding())
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                            Holding
+                            {{ __('portfolio.holding') }}
                         </span>
                     @else
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                            Zero
+                            {{ __('portfolio.zero') }}
                         </span>
                     @endif
                 </div>
                 <p class="text-2xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                     {{ number_format((float) $position->quantity, 4) }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Available stock shares held</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.available_stock_shares') }}</p>
             </div>
 
             <!-- 2. Weighted Avg Price (WAC) -->
             <div class="p-5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Weighted Avg Price
+                    {{ __('portfolio.weighted_avg_price') }}
                 </span>
                 <p class="text-2xl font-bold font-mono text-slate-900 dark:text-white mt-2">
-                    {{ $company->currency }} {{ number_format((float) $position->average_price, 4) }}
+                    {{ $company->currency_symbol }} {{ number_format((float) $position->average_price, 4) }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Weighted average cost basis per share</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.wac_cost_basis_per_share') }}</p>
             </div>
 
             <!-- 3. Inventory Cost Basis -->
             <div class="p-5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Inventory Cost Basis
+                        {{ __('portfolio.inventory_cost_basis') }}
                     </span>
                     <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400">
-                        Cost Basis
+                        {{ __('portfolio.cost_basis') }}
                     </span>
                 </div>
                 <p class="text-2xl font-bold font-mono text-slate-900 dark:text-white mt-2">
-                    {{ $company->currency }} {{ number_format((float) $position->inventory_amount, 2) }}
+                    {{ $company->currency_symbol }} {{ number_format((float) $position->inventory_amount, 2) }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Total current acquisition cost of inventory</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.total_current_acq_cost') }}</p>
             </div>
 
             <!-- 4. Cumulative Realized Profit -->
             <div class="p-5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Realized Profit
+                    {{ __('portfolio.realized_profit') }}
                 </span>
                 @php
                     $realizedProfit = (float) $position->realized_profit;
                 @endphp
                 <p class="text-2xl font-bold font-mono mt-2 {{ $realizedProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($realizedProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
-                    {{ $realizedProfit > 0 ? '+' : '' }}{{ $company->currency }} {{ number_format($realizedProfit, 2) }}
+                    {{ $realizedProfit > 0 ? '+' : '' }}{{ $company->currency_symbol }} {{ number_format($realizedProfit, 2) }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Cumulative profit from closed sales</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.cumulative_profit_sales') }}</p>
             </div>
         </div>
 
@@ -163,72 +163,72 @@
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="pb-4 mb-4 border-b border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Historical Transaction Totals</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('portfolio.historical_totals') }}</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Lifetime BUY and SELL volume breakdown for {{ $company->symbol }}. Current holdings are maintained on the position record.
+                        {{ __('portfolio.historical_totals_desc', ['symbol' => $company->symbol]) }}
                     </p>
                 </div>
                 <span class="text-xs text-slate-400 font-mono">
-                    Last Transaction: {{ $position->last_transaction_at ? $position->last_transaction_at->format('Y-m-d') : '—' }}
+                    {{ __('portfolio.last_transaction') }}: {{ $position->last_transaction_at ? $position->last_transaction_at->format('Y-m-d') : '—' }}
                 </span>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                 <!-- Total BUY Quantity -->
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total BUY Qty</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_buy_qty') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
                         {{ number_format((float) $transactionSummary['total_buy_quantity'], 4) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ $transactionSummary['buy_transactions_count'] }} BUY order(s)</span>
+                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.buy_orders_count', ['count' => $transactionSummary['buy_transactions_count']]) }}</span>
                 </div>
 
                 <!-- Total BUY Amount -->
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total BUY Capital</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_buy_capital') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
-                        {{ $company->currency }} {{ number_format((float) $transactionSummary['total_buy_amount'], 2) }}
+                        {{ $company->currency_symbol }} {{ number_format((float) $transactionSummary['total_buy_amount'], 2) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Gross purchase volume</span>
+                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.gross_purchase_vol') }}</span>
                 </div>
 
                 <!-- Total SELL Quantity -->
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total SELL Qty</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_sell_qty') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
                         {{ number_format((float) $transactionSummary['total_sell_quantity'], 4) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ $transactionSummary['sell_transactions_count'] }} SELL order(s)</span>
+                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.sell_orders_count', ['count' => $transactionSummary['sell_transactions_count']]) }}</span>
                 </div>
 
                 <!-- Total SELL Amount -->
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total SELL Revenue</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_sell_revenue') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
-                        {{ $company->currency }} {{ number_format((float) $transactionSummary['total_sell_amount'], 2) }}
+                        {{ $company->currency_symbol }} {{ number_format((float) $transactionSummary['total_sell_amount'], 2) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Gross sale proceeds</span>
+                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.gross_sale_proceeds') }}</span>
                 </div>
 
                 <!-- Total SELL Cost Basis -->
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total Sold Cost</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_sold_cost') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
-                        {{ $company->currency }} {{ number_format((float) $transactionSummary['total_sell_cost'], 2) }}
+                        {{ $company->currency_symbol }} {{ number_format((float) $transactionSummary['total_sell_cost'], 2) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">WAC cost consumed</span>
+                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.wac_cost_consumed') }}</span>
                 </div>
 
                 <!-- Total Realized Profit -->
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Closed Trades P&L</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.closed_trades_pl') }}</span>
                     @php
                         $closedProfit = (float) $transactionSummary['total_realized_profit'];
                     @endphp
                     <span class="text-base font-bold font-mono mt-1 block {{ $closedProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($closedProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
-                        {{ $closedProfit > 0 ? '+' : '' }}{{ $company->currency }} {{ number_format($closedProfit, 2) }}
+                        {{ $closedProfit > 0 ? '+' : '' }}{{ $company->currency_symbol }} {{ number_format($closedProfit, 2) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Net realized profit</span>
+                    <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.net_realized_profit') }}</span>
                 </div>
             </div>
         </div>
@@ -236,9 +236,9 @@
         <!-- Realized Profit Breakdown (SELL Transactions) -->
         <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700">
-                <h3 class="text-base font-bold text-slate-900 dark:text-white">Realized Profit History</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('portfolio.realized_profit_history') }}</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Breakdown of each completed SELL order showing revenue, consumed WAC cost basis, and resulting profit or loss.
+                    {{ __('portfolio.realized_profit_history_desc') }}
                 </p>
             </div>
 
@@ -246,13 +246,13 @@
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
-                            <th class="py-3 px-4">Date</th>
-                            <th class="py-3 px-4 text-right">Quantity Sold</th>
-                            <th class="py-3 px-4 text-right">Selling Price</th>
-                            <th class="py-3 px-4 text-right">Selling Amount</th>
-                            <th class="py-3 px-4 text-right">Cost Basis</th>
-                            <th class="py-3 px-4 text-right">Realized Profit / (Loss)</th>
-                            <th class="py-3 px-4">Notes</th>
+                            <th class="py-3 px-4">{{ __('transactions.date') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('portfolio.quantity_sold') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('portfolio.selling_price') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('portfolio.selling_amount') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('transactions.cost') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('portfolio.realized_profit') }}</th>
+                            <th class="py-3 px-4">{{ __('transactions.notes') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -268,16 +268,16 @@
                                     {{ number_format((float) $sellTx->quantity, 4) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-medium">
-                                    {{ $company->currency }} {{ number_format((float) $sellTx->price, 4) }}
+                                    {{ $company->currency_symbol }} {{ number_format((float) $sellTx->price, 4) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-semibold">
-                                    {{ $company->currency }} {{ number_format((float) $sellTx->amount, 2) }}
+                                    {{ $company->currency_symbol }} {{ number_format((float) $sellTx->amount, 2) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-600 dark:text-slate-400">
-                                    {{ $company->currency }} {{ number_format((float) $sellTx->cost, 2) }}
+                                    {{ $company->currency_symbol }} {{ number_format((float) $sellTx->cost, 2) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono font-bold {{ $txProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($txProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
-                                    {{ $txProfit > 0 ? '+' : '' }}{{ $company->currency }} {{ number_format($txProfit, 2) }}
+                                    {{ $txProfit > 0 ? '+' : '' }}{{ $company->currency_symbol }} {{ number_format($txProfit, 2) }}
                                 </td>
                                 <td class="py-3 px-4 text-slate-500 dark:text-slate-400 max-w-xs truncate">
                                     {{ $sellTx->notes ?? '—' }}
@@ -286,8 +286,8 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="py-8 text-center text-slate-500 dark:text-slate-400">
-                                    <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">No SELL transactions executed yet</p>
-                                    <p class="text-[11px] text-slate-400 mt-0.5">Realized profit/loss history will appear here once shares are sold.</p>
+                                    <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ __('portfolio.no_sell_transactions') }}</p>
+                                    <p class="text-[11px] text-slate-400 mt-0.5">{{ __('portfolio.sell_history_desc') }}</p>
                                 </td>
                             </tr>
                         @endforelse
@@ -300,13 +300,13 @@
         <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Complete Transaction Ledger</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('portfolio.complete_transaction_ledger') }}</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Permanent immutable ledger of all BUY and SELL transactions for {{ $company->symbol }}.
+                        {{ __('portfolio.complete_ledger_desc', ['symbol' => $company->symbol]) }}
                     </p>
                 </div>
                 <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
-                    Total Records: {{ $transactions->total() }}
+                    {{ __('stocks.total_records', ['count' => $transactions->total()]) }}
                 </span>
             </div>
 
@@ -314,14 +314,15 @@
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
-                            <th class="py-3 px-4">Date</th>
-                            <th class="py-3 px-4 text-center">Type</th>
-                            <th class="py-3 px-4 text-right">Quantity</th>
-                            <th class="py-3 px-4 text-right">Price</th>
-                            <th class="py-3 px-4 text-right">Amount</th>
-                            <th class="py-3 px-4 text-right">Cost</th>
-                            <th class="py-3 px-4 text-right">Realized Profit</th>
-                            <th class="py-3 px-4">Notes</th>
+                            <th class="py-3 px-4">{{ __('transactions.date') }}</th>
+                            <th class="py-3 px-4 text-center">{{ __('transactions.type') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('transactions.quantity') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('transactions.price') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('common.amount') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('transactions.cost') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('transactions.realized_profit') }}</th>
+                            <th class="py-3 px-4">{{ __('transactions.notes') }}</th>
+                            <th class="py-3 px-4 text-center">{{ __('common.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -333,11 +334,11 @@
                                 <td class="py-3 px-4 text-center">
                                     @if ($transaction->type->isBuy())
                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                                            BUY
+                                            {{ __('transactions.buy_action') }}
                                         </span>
                                     @else
                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
-                                            SELL
+                                            {{ __('transactions.sell_action') }}
                                         </span>
                                     @endif
                                 </td>
@@ -362,11 +363,20 @@
                                 <td class="py-3 px-4 text-slate-500 dark:text-slate-400 max-w-xs truncate">
                                     {{ $transaction->notes ?? '—' }}
                                 </td>
+                                <td class="py-3 px-4 text-center whitespace-nowrap">
+                                    <a href="{{ route('stocks.transactions.edit', [$company, $transaction]) }}"
+                                       class="inline-flex items-center px-2.5 py-1 rounded text-[11px] font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:text-emerald-300 dark:bg-emerald-950/60 dark:hover:bg-emerald-900 border border-emerald-200 dark:border-emerald-800 transition-colors">
+                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
+                                        {{ __('common.edit') }}
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="py-12 text-center text-slate-500 dark:text-slate-400">
-                                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">No transactions recorded yet</p>
+                                <td colspan="9" class="py-12 text-center text-slate-500 dark:text-slate-400">
+                                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ __('stocks.no_transactions_yet') }}</p>
                                 </td>
                             </tr>
                         @endforelse

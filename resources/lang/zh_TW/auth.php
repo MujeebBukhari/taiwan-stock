@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'login' => '登入',
+    'login_title' => '登入您的帳戶',
+    'email' => '電子郵件',
+    'password' => '密碼',
+    'remember_me' => '記住我',
+    'forgot_password' => '忘記密碼？',
+    'log_in' => '登入',
+    'register' => '註冊',
+    'name' => '姓名',
+    'confirm_password' => '確認密碼',
+    'already_registered' => '已經註冊？',
+    'reset_password' => '重設密碼',
+    'send_reset_link' => '發送密碼重設連結',
+    'email_reset_link' => '發送密碼重設連結',
+    'forgot_password_desc' => '忘記密碼？沒問題。只要輸入您的電子郵件地址，我們將透過電子郵件寄送密碼重設連結給您。',
+    'back_to_login' => '返回登入',
+    'reset_password_desc' => '請輸入您的電子郵件與選擇的新密碼。',
+    'new_password' => '新密碼',
+    'confirm_new_password' => '確認新密碼',
+    'failed' => '使用者名稱或密碼錯誤。',
+    'password_error' => '密碼不正確。',
+    'throttle' => '登入嘗試次數過多。請在 :seconds 秒後再試。',
+    'account_inactive' => '您的帳號已停用，請聯絡管理員。',
+];

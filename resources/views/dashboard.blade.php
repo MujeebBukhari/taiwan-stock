@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        Dashboard &bull; Portfolio Overview
+        {{ __('dashboard.title') }} &bull; {{ __('dashboard.portfolio_overview') }}
     </x-slot>
 
     <div class="space-y-6">
@@ -8,20 +8,20 @@
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Welcome back, {{ auth()->user()->name }}</h2>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">{{ __('dashboard.welcome_back', ['name' => auth()->user()->name]) }}</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        Central Portfolio Overview &bull; Weighted Average Cost (WAC) Accounting Basis &bull; User Isolated
+                        {{ __('dashboard.subtitle') }}
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold {{ auth()->user()->isAdmin() ? 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-800' : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800' }}">
-                        Role: {{ auth()->user()->role ?? 'USER' }}
+                        {{ __('common.role') }}: {{ auth()->user()->role ?? 'USER' }}
                     </span>
                     <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
-                        Status: Active
+                        {{ __('common.status') }}: {{ __('common.active') }}
                     </span>
                     <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600">
-                        Accounting: WAC
+                        {{ __('common.accounting') }}: {{ __('common.wac') }}
                     </span>
                 </div>
             </div>
@@ -30,8 +30,8 @@
         <!-- 2. Dashboard Quick Actions -->
         <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-slate-700/60">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Quick Actions</span>
-                <span class="text-[11px] text-slate-400">Navigate to key portfolio modules and trading workflows</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ __('dashboard.quick_actions') }}</span>
+                <span class="text-[11px] text-slate-400">{{ __('dashboard.quick_actions_desc') }}</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                 <!-- Add BUY Transaction -->
@@ -40,7 +40,7 @@
                     <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    <span>Add BUY Transaction</span>
+                    <span>{{ __('dashboard.add_buy_transaction') }}</span>
                 </a>
 
                 <!-- Record SELL Transaction -->
@@ -49,7 +49,7 @@
                     <svg class="w-4 h-4 shrink-0 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                     </svg>
-                    <span>Record SELL Transaction</span>
+                    <span>{{ __('dashboard.record_sell_transaction') }}</span>
                 </a>
 
                 <!-- View Portfolio -->
@@ -59,7 +59,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                     </svg>
-                    <span>View Portfolio</span>
+                    <span>{{ __('dashboard.view_portfolio') }}</span>
                 </a>
 
                 <!-- View Analytics -->
@@ -68,7 +68,7 @@
                     <svg class="w-4 h-4 shrink-0 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
                     </svg>
-                    <span>View Analytics</span>
+                    <span>{{ __('dashboard.view_analytics') }}</span>
                 </a>
 
                 <!-- View Reports -->
@@ -77,7 +77,7 @@
                     <svg class="w-4 h-4 shrink-0 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <span>View Reports</span>
+                    <span>{{ __('dashboard.view_reports') }}</span>
                 </a>
             </div>
         </div>
@@ -88,26 +88,26 @@
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Inventory Cost Basis
+                        {{ __('dashboard.inventory_cost_basis') }}
                     </span>
                     <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
-                        WAC
+                        {{ __('common.wac') }}
                     </span>
                 </div>
                 <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                     {{ number_format((float) $summary['total_inventory_cost'], 2) }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Total active holding cost</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('dashboard.total_active_holding_cost') }}</p>
             </div>
 
             <!-- 2. Total Realized Profit / Loss -->
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Realized Profit / Loss
+                        {{ __('dashboard.realized_profit_loss') }}
                     </span>
                     <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
-                        Closed P&L
+                        {{ __('dashboard.closed_pl') }}
                     </span>
                 </div>
                 @php
@@ -116,51 +116,51 @@
                 <p class="text-xl font-bold font-mono mt-2 {{ $totalProfitFloat > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($totalProfitFloat < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
                     {{ $totalProfitFloat > 0 ? '+' : '' }}{{ number_format($totalProfitFloat, 2) }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Cumulative closed trades</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('dashboard.cumulative_closed_trades') }}</p>
             </div>
 
             <!-- 3. Total Quantity Held -->
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Total Quantity Held
+                    {{ __('dashboard.total_quantity_held') }}
                 </span>
                 <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                     {{ number_format((float) $summary['total_quantity'], 4) }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Aggregate inventory shares</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('dashboard.aggregate_inventory_shares') }}</p>
             </div>
 
             <!-- 4. Active Positions -->
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Active Positions
+                    {{ __('dashboard.active_positions') }}
                 </span>
                 <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                     {{ $summary['active_positions_count'] }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Positions with quantity &gt; 0</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('dashboard.positions_gt_zero') }}</p>
             </div>
 
             <!-- 5. Companies Held -->
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Companies Held
+                    {{ __('dashboard.companies_held') }}
                 </span>
                 <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                     {{ $summary['companies_held_count'] }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Distinct active stocks</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('dashboard.distinct_active_stocks') }}</p>
             </div>
 
             <!-- 6. Total Positions (Historical + Active) -->
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Total Historical Positions
+                    {{ __('dashboard.total_historical_positions') }}
                 </span>
                 <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                     {{ $summary['total_positions_count'] }}
                 </p>
-                <p class="text-[11px] text-slate-400 mt-1">Includes zero-quantity positions</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('dashboard.includes_zero_quantity') }}</p>
             </div>
         </div>
 
@@ -171,13 +171,13 @@
                 <div>
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/60">
                         <div>
-                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Monthly Realized Profit/Loss</h3>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">{{ __('dashboard.monthly_realized_pl') }}</h3>
                             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                Chronological realized gains and losses from completed SELL transactions (most recent 12 months).
+                                {{ __('dashboard.monthly_realized_pl_desc') }}
                             </p>
                         </div>
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-                            Immutable Ledger
+                            {{ __('dashboard.immutable_ledger') }}
                         </span>
                     </div>
 
@@ -191,9 +191,9 @@
                                 <svg class="w-10 h-10 text-slate-300 dark:text-slate-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
                                 </svg>
-                                <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">No Realized Profit/Loss Data Yet</p>
+                                <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ __('dashboard.no_realized_pl_data') }}</p>
                                 <p class="text-[11px] text-slate-400 mt-1 max-w-sm">
-                                    Realized gains or losses will be charted here once you execute SELL transactions with closed position profits.
+                                    {{ __('dashboard.no_realized_pl_data_desc') }}
                                 </p>
                             </div>
                         @endif
@@ -201,9 +201,9 @@
                 </div>
 
                 <div class="pt-3 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400">
-                    <span>* Excludes unrealized paper gains and live market feeds.</span>
+                    <span>{{ __('dashboard.excludes_unrealized') }}</span>
                     <a href="{{ route('analytics.index') }}" class="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
-                        Open Full Analytics &rarr;
+                        {{ __('dashboard.open_full_analytics') }}
                     </a>
                 </div>
             </div>
@@ -213,13 +213,13 @@
                 <div>
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/60">
                         <div>
-                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Recent Activity</h3>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">{{ __('dashboard.recent_activity') }}</h3>
                             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                                 {{ $current_month_activity['month_name'] }}
                             </p>
                         </div>
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                            Current Month
+                            {{ __('dashboard.current_month') }}
                         </span>
                     </div>
 
@@ -227,8 +227,8 @@
                     <div class="space-y-3 mt-4">
                         <div class="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700/60">
                             <div>
-                                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">BUY Orders</span>
-                                <p class="text-[11px] text-slate-400">{{ number_format((float) $current_month_activity['buy_amount'], 2) }} invested</p>
+                                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ __('dashboard.buy_orders') }}</span>
+                                <p class="text-[11px] text-slate-400">{{ number_format((float) $current_month_activity['buy_amount'], 2) }} {{ __('dashboard.invested') }}</p>
                             </div>
                             <span class="text-base font-bold font-mono text-emerald-600 dark:text-emerald-400">
                                 {{ $current_month_activity['buy_count'] }}
@@ -237,8 +237,8 @@
 
                         <div class="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700/60">
                             <div>
-                                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">SELL Orders</span>
-                                <p class="text-[11px] text-slate-400">{{ number_format((float) $current_month_activity['sell_amount'], 2) }} proceeds</p>
+                                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ __('dashboard.sell_orders') }}</span>
+                                <p class="text-[11px] text-slate-400">{{ number_format((float) $current_month_activity['sell_amount'], 2) }} {{ __('dashboard.proceeds') }}</p>
                             </div>
                             <span class="text-base font-bold font-mono text-rose-600 dark:text-rose-400">
                                 {{ $current_month_activity['sell_count'] }}
@@ -247,8 +247,8 @@
 
                         <div class="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700/60">
                             <div>
-                                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Realized P/L (This Month)</span>
-                                <p class="text-[11px] text-slate-400">Net closed gains / losses</p>
+                                <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ __('dashboard.realized_pl_this_month') }}</span>
+                                <p class="text-[11px] text-slate-400">{{ __('dashboard.net_closed_gains_losses') }}</p>
                             </div>
                             @php
                                 $monthProfitFloat = (float) $current_month_activity['realized_profit'];
@@ -262,7 +262,7 @@
 
                 <div class="pt-3 mt-4 border-t border-slate-100 dark:border-slate-700/60">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-500 dark:text-slate-400">All-Time Closed P&L:</span>
+                        <span class="text-slate-500 dark:text-slate-400">{{ __('dashboard.all_time_closed_pl') }}</span>
                         <span class="font-bold font-mono {{ $totalProfitFloat > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($totalProfitFloat < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-700 dark:text-slate-300') }}">
                             {{ $totalProfitFloat > 0 ? '+' : '' }}{{ number_format($totalProfitFloat, 2) }}
                         </span>
@@ -276,20 +276,20 @@
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                     <div class="flex items-center gap-2">
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Current Holdings</h3>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('dashboard.current_holdings') }}</h3>
                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                            {{ $current_holdings->count() }} Active {{ Str::plural('Position', $current_holdings->count()) }}
+                            {{ $current_holdings->count() }} {{ __('dashboard.active_positions') }}
                         </span>
                     </div>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Active positions with remaining share inventory (quantity &gt; 0), sorted by inventory cost descending.
+                        {{ __('dashboard.current_holdings_desc') }}
                     </p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <a href="{{ route('portfolio.index') }}"
                        class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
-                        <span>View Full Portfolio</span>
+                        <span>{{ __('dashboard.view_full_portfolio') }}</span>
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
@@ -301,13 +301,13 @@
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
-                            <th class="py-3 px-4">Company</th>
-                            <th class="py-3 px-4">Symbol</th>
-                            <th class="py-3 px-4 text-right">Quantity</th>
-                            <th class="py-3 px-4 text-right">WAC</th>
-                            <th class="py-3 px-4 text-right">Inventory Cost</th>
-                            <th class="py-3 px-4 text-right">Realized P/L</th>
-                            <th class="py-3 px-4 text-right">Last Transaction</th>
+                            <th class="py-3 px-4">{{ __('dashboard.company') }}</th>
+                            <th class="py-3 px-4">{{ __('dashboard.symbol') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.quantity') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.wac') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.inventory_cost_basis') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.realized_profit_loss') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.last_transaction') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -366,14 +366,14 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                                     </svg>
-                                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">No active holdings in your portfolio</p>
-                                    <p class="text-xs text-slate-400 mt-1 mb-4">You currently have no open stock positions with positive share quantities.</p>
+                                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ __('dashboard.no_active_holdings') }}</p>
+                                    <p class="text-xs text-slate-400 mt-1 mb-4">{{ __('dashboard.no_active_holdings_desc') }}</p>
                                     <a href="{{ route('companies.index') }}"
                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg shadow-sm transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                         </svg>
-                                        <span>Browse Companies &amp; Trade</span>
+                                        <span>{{ __('dashboard.browse_companies') }}</span>
                                     </a>
                                 </td>
                             </tr>
@@ -388,20 +388,20 @@
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                     <div class="flex items-center gap-2">
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Recent Transactions</h3>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('dashboard.recent_transactions') }}</h3>
                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300">
-                            Latest {{ $recent_transactions->count() }} of 10
+                            {{ __('dashboard.latest_of', ['count' => $recent_transactions->count(), 'total' => 10]) }}
                         </span>
                     </div>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Permanent immutable record of your latest stock trades (newest first). Completed transactions cannot be edited or deleted.
+                        {{ __('dashboard.recent_transactions_desc') }}
                     </p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <a href="{{ route('companies.index') }}"
                        class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
-                        <span>Trade Stocks</span>
+                        <span>{{ __('dashboard.trade_stocks') }}</span>
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
@@ -413,14 +413,14 @@
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
-                            <th class="py-3 px-4">Date</th>
-                            <th class="py-3 px-4">Company</th>
-                            <th class="py-3 px-4 text-center">Type</th>
-                            <th class="py-3 px-4 text-right">Quantity</th>
-                            <th class="py-3 px-4 text-right">Price</th>
-                            <th class="py-3 px-4 text-right">Amount</th>
-                            <th class="py-3 px-4 text-right">Realized Profit/Loss</th>
-                            <th class="py-3 px-4">Notes</th>
+                            <th class="py-3 px-4">{{ __('dashboard.date') }}</th>
+                            <th class="py-3 px-4">{{ __('dashboard.company') }}</th>
+                            <th class="py-3 px-4 text-center">{{ __('dashboard.type') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.quantity') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.price') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.amount') }}</th>
+                            <th class="py-3 px-4 text-right">{{ __('dashboard.realized_profit_loss') }}</th>
+                            <th class="py-3 px-4">{{ __('dashboard.notes') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -451,11 +451,11 @@
                                 <td class="py-3 px-4 text-center whitespace-nowrap">
                                     @if ($tx->type->isBuy())
                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                                            BUY
+                                            {{ __('transactions.buy_action') }}
                                         </span>
                                     @else
                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
-                                            SELL
+                                            {{ __('transactions.sell_action') }}
                                         </span>
                                     @endif
                                 </td>
@@ -500,14 +500,14 @@
                                     <svg class="mx-auto h-10 w-10 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                     </svg>
-                                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">No transactions recorded yet</p>
-                                    <p class="text-xs text-slate-400 mt-1 mb-4">Completed immutable transaction records will appear here.</p>
+                                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ __('dashboard.no_recent_transactions') }}</p>
+                                    <p class="text-xs text-slate-400 mt-1 mb-4">{{ __('dashboard.no_recent_transactions_desc') }}</p>
                                     <a href="{{ route('companies.index') }}"
                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg shadow-sm transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                         </svg>
-                                        <span>Record First BUY Transaction</span>
+                                        <span>{{ __('dashboard.first_buy_transaction') }}</span>
                                     </a>
                                 </td>
                             </tr>

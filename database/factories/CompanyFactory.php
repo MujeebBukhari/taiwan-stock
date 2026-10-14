@@ -19,13 +19,13 @@ class CompanyFactory extends Factory
      */
     public function definition(): array
     {
-        $exchanges = ['NASDAQ', 'NYSE', 'PSX'];
-        $sectors = ['Technology', 'Financials', 'Energy', 'Healthcare', 'Consumer Discretionary', 'Industrials', 'Materials'];
+        $exchanges = ['TWSE', 'TPEx', 'NASDAQ', 'NYSE'];
+        $sectors = ['Technology', 'Financials', 'Energy', 'Healthcare', 'Consumer Discretionary', 'Industrials', 'Materials', 'Real Estate', 'Consumer Staples'];
         $exchange = fake()->randomElement($exchanges);
-        $currency = $exchange === 'PSX' ? 'PKR' : 'USD';
+        $currency = in_array($exchange, ['NASDAQ', 'NYSE'], true) ? 'USD' : 'TWD';
 
         return [
-            'symbol' => strtoupper(fake()->unique()->lexify('????')),
+            'symbol' => strtoupper(fake()->unique()->lexify('???')),
             'name' => fake()->company(),
             'exchange' => $exchange,
             'sector' => fake()->randomElement($sectors),

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
@@ -11,8 +12,11 @@ use App\Http\Controllers\StockWorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return auth()->check() ? redirect()->route('dashboard') : view('welcome');
+    return auth()->check() ? redirect()->route('dashboard') : redirect()->route('login');
 });
+
+Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
+Route::post('/locale', [LocaleController::class, 'switch'])->name('locale.update');
 
 Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -32,6 +36,11 @@ Route::middleware(['auth', 'active'])->group(function () {
     // SELL Transaction Routes
     Route::get('/stocks/{company}/sell', [StockTransactionController::class, 'createSell'])->name('stocks.sell.create');
     Route::post('/stocks/{company}/sell', [StockTransactionController::class, 'storeSell'])->name('stocks.sell.store');
+
+    // Transaction Edit, Update & Delete Routes
+    Route::get('/stocks/{company}/transactions/{transaction}/edit', [StockTransactionController::class, 'edit'])->name('stocks.transactions.edit');
+    Route::put('/stocks/{company}/transactions/{transaction}', [StockTransactionController::class, 'update'])->name('stocks.transactions.update');
+    Route::delete('/stocks/{company}/transactions/{transaction}', [StockTransactionController::class, 'destroy'])->name('stocks.transactions.destroy');
 
     // Admin Company Management (strictly restricted to administrators)
     Route::middleware('can:manage-stocks')->prefix('admin')->name('admin.')->group(function () {

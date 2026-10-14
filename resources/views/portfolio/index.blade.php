@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        Portfolio &bull; Holdings & Cost Basis
+        {{ __('portfolio.title') }} &bull; {{ __('portfolio.holdings') }} &amp; {{ __('portfolio.cost_basis') }}
     </x-slot>
 
     <div class="space-y-6">
@@ -8,9 +8,9 @@
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Portfolio Overview</h2>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">{{ __('portfolio.overview') }}</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        Consolidated summary of stock positions based on Weighted Average Cost (WAC) acquisition cost and closed trade profits.
+                        {{ __('portfolio.overview_desc') }}
                     </p>
                 </div>
 
@@ -20,7 +20,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
-                        <span>Trade Stocks</span>
+                        <span>{{ __('portfolio.trade_stocks') }}</span>
                     </a>
                 </div>
             </div>
@@ -31,26 +31,26 @@
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <div class="flex items-center justify-between">
                         <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                            Total Inventory Cost
+                            {{ __('portfolio.total_inventory_cost') }}
                         </span>
                         <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                            Cost Basis
+                            {{ __('portfolio.cost_basis') }}
                         </span>
                     </div>
                     <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                         {{ number_format((float) $summary['total_inventory_cost'], 2) }}
                     </p>
-                    <p class="text-[11px] text-slate-400 mt-1">Total acquisition cost basis</p>
+                    <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.total_acq_cost') }}</p>
                 </div>
 
                 <!-- 2. Total Realized Profit -->
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <div class="flex items-center justify-between">
                         <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                            Realized Profit
+                            {{ __('portfolio.realized_profit') }}
                         </span>
                         <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                            Closed P&L
+                            {{ __('portfolio.closed_pl') }}
                         </span>
                     </div>
                     @php
@@ -59,40 +59,40 @@
                     <p class="text-xl font-bold font-mono mt-2 {{ $totalProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($totalProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
                         {{ $totalProfit > 0 ? '+' : '' }}{{ number_format($totalProfit, 2) }}
                     </p>
-                    <p class="text-[11px] text-slate-400 mt-1">Cumulative closed trades profit</p>
+                    <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.cumulative_closed_profit') }}</p>
                 </div>
 
                 <!-- 3. Total Quantity -->
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Total Quantity
+                        {{ __('portfolio.total_quantity') }}
                     </span>
                     <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                         {{ number_format((float) $summary['total_quantity'], 4) }}
                     </p>
-                    <p class="text-[11px] text-slate-400 mt-1">Aggregate shares in inventory</p>
+                    <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.aggregate_shares') }}</p>
                 </div>
 
                 <!-- 4. Active Positions -->
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Active Positions
+                        {{ __('portfolio.active_positions') }}
                     </span>
                     <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                         {{ $summary['active_positions_count'] }}
                     </p>
-                    <p class="text-[11px] text-slate-400 mt-1">Holdings with quantity &gt; 0</p>
+                    <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.holdings_gt_zero') }}</p>
                 </div>
 
                 <!-- 5. Companies Held -->
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Companies Held
+                        {{ __('portfolio.companies_held') }}
                     </span>
                     <p class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-2">
                         {{ $summary['companies_held_count'] }}
                     </p>
-                    <p class="text-[11px] text-slate-400 mt-1">Distinct stocks in portfolio</p>
+                    <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.distinct_stocks') }}</p>
                 </div>
             </div>
         </div>
@@ -106,9 +106,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                     </svg>
                 </div>
-                <h3 class="text-base font-bold text-slate-900 dark:text-white">No positions yet</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('portfolio.no_positions_yet') }}</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
-                    Buy a stock to start building your portfolio. Every BUY transaction automatically tracks your Weighted Average Cost (WAC).
+                    {{ __('portfolio.no_positions_desc') }}
                 </p>
                 <div class="mt-6">
                     <a href="{{ route('companies.index') }}"
@@ -116,7 +116,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        <span>Browse Available Companies</span>
+                        <span>{{ __('portfolio.browse_companies') }}</span>
                     </a>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                         <svg class="w-5 h-5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <p>No active holdings. Historical positions are shown below.</p>
+                        <p>{{ __('portfolio.no_active_holdings_banner') }}</p>
                     </div>
                 </div>
             @endif
@@ -140,7 +140,7 @@
                     <form method="GET" action="{{ route('portfolio.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                         <!-- Search Input -->
                         <div class="lg:col-span-2">
-                            <label for="search" class="sr-only">Search</label>
+                            <label for="search" class="sr-only">{{ __('companies.search') }}</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,18 +151,18 @@
                                        id="search"
                                        name="search"
                                        value="{{ $filters['search'] ?? '' }}"
-                                       placeholder="Search company or symbol..."
+                                       placeholder="{{ __('companies.search_placeholder') }}"
                                        class="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                             </div>
                         </div>
 
                         <!-- Exchange Dropdown -->
                         <div>
-                            <label for="exchange" class="sr-only">Exchange</label>
+                            <label for="exchange" class="sr-only">{{ __('companies.exchange') }}</label>
                             <select id="exchange"
                                     name="exchange"
                                     class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                                <option value="">All Exchanges</option>
+                                <option value="">{{ __('companies.all_exchanges') }}</option>
                                 @foreach ($filterOptions['exchanges'] as $exchangeOption)
                                     <option value="{{ $exchangeOption }}" {{ ($filters['exchange'] ?? '') === $exchangeOption ? 'selected' : '' }}>
                                         {{ $exchangeOption }}
@@ -173,11 +173,11 @@
 
                         <!-- Sector Dropdown -->
                         <div>
-                            <label for="sector" class="sr-only">Sector</label>
+                            <label for="sector" class="sr-only">{{ __('companies.sector') }}</label>
                             <select id="sector"
                                     name="sector"
                                     class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                                <option value="">All Sectors</option>
+                                <option value="">{{ __('companies.all_sectors') }}</option>
                                 @foreach ($filterOptions['sectors'] as $sectorOption)
                                     <option value="{{ $sectorOption }}" {{ ($filters['sector'] ?? '') === $sectorOption ? 'selected' : '' }}>
                                         {{ $sectorOption }}
@@ -191,19 +191,19 @@
                             <select id="status"
                                     name="status"
                                     class="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                                <option value="all" {{ ($filters['status'] ?? 'all') === 'all' ? 'selected' : '' }}>All Status</option>
-                                <option value="holding" {{ ($filters['status'] ?? '') === 'holding' ? 'selected' : '' }}>Holding (Qty &gt; 0)</option>
-                                <option value="zero" {{ ($filters['status'] ?? '') === 'zero' ? 'selected' : '' }}>Zero (Closed)</option>
+                                <option value="all" {{ ($filters['status'] ?? 'all') === 'all' ? 'selected' : '' }}>{{ __('portfolio.all_status') }}</option>
+                                <option value="holding" {{ ($filters['status'] ?? '') === 'holding' ? 'selected' : '' }}>{{ __('portfolio.status_holding') }}</option>
+                                <option value="zero" {{ ($filters['status'] ?? '') === 'zero' ? 'selected' : '' }}>{{ __('portfolio.status_zero') }}</option>
                             </select>
 
                             <button type="submit"
                                     class="px-3 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-lg transition-colors">
-                                Filter
+                                {{ __('common.filter') }}
                             </button>
 
                             @if (!empty($filters['search']) || !empty($filters['exchange']) || !empty($filters['sector']) || (($filters['status'] ?? 'all') !== 'all'))
                                 <a href="{{ route('portfolio.index') }}"
-                                   title="Reset Filters"
+                                   title="{{ __('common.reset') }}"
                                    class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -216,8 +216,8 @@
 
                 <!-- Table Header Info -->
                 <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-900/30">
-                    <span class="font-semibold text-slate-700 dark:text-slate-300">Positions List</span>
-                    <span class="font-mono">Showing {{ $positions->total() }} position(s)</span>
+                    <span class="font-semibold text-slate-700 dark:text-slate-300">{{ __('portfolio.positions_list') }}</span>
+                    <span class="font-mono">{{ __('portfolio.showing_positions', ['count' => $positions->total()]) }}</span>
                 </div>
 
                 <!-- Positions Table -->
@@ -225,16 +225,16 @@
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
                             <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
-                                <th class="py-3 px-4">Company</th>
-                                <th class="py-3 px-4">Exchange</th>
-                                <th class="py-3 px-4">Sector</th>
-                                <th class="py-3 px-4 text-right">Quantity</th>
-                                <th class="py-3 px-4 text-right">Average (WAC)</th>
-                                <th class="py-3 px-4 text-right">Inventory Cost</th>
-                                <th class="py-3 px-4 text-right">Realized Profit</th>
-                                <th class="py-3 px-4 text-center">Last Transaction</th>
-                                <th class="py-3 px-4 text-center">Status</th>
-                                <th class="py-3 px-4 text-right">Action</th>
+                                <th class="py-3 px-4">{{ __('portfolio.company') }}</th>
+                                <th class="py-3 px-4">{{ __('portfolio.exchange') }}</th>
+                                <th class="py-3 px-4">{{ __('portfolio.sector') }}</th>
+                                <th class="py-3 px-4 text-right">{{ __('portfolio.current_quantity') }}</th>
+                                <th class="py-3 px-4 text-right">{{ __('portfolio.average_wac') }}</th>
+                                <th class="py-3 px-4 text-right">{{ __('portfolio.inventory_cost') }}</th>
+                                <th class="py-3 px-4 text-right">{{ __('portfolio.realized_profit') }}</th>
+                                <th class="py-3 px-4 text-center">{{ __('portfolio.last_transaction') }}</th>
+                                <th class="py-3 px-4 text-center">{{ __('common.status') }}</th>
+                                <th class="py-3 px-4 text-right">{{ __('common.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -262,7 +262,7 @@
 
                                     <!-- Sector -->
                                     <td class="py-3 px-4 text-slate-500 dark:text-slate-400">
-                                        {{ $position->company->sector ?? 'Unspecified' }}
+                                        {{ $position->company->sector ?? __('stocks.unspecified') }}
                                     </td>
 
                                     <!-- Quantity -->
@@ -272,12 +272,12 @@
 
                                     <!-- Average (WAC) -->
                                     <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-medium">
-                                        {{ $position->company->currency }} {{ number_format((float) $position->average_price, 4) }}
+                                        {{ $position->company->currency_symbol }} {{ number_format((float) $position->average_price, 4) }}
                                     </td>
 
                                     <!-- Inventory Cost -->
                                     <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-semibold">
-                                        {{ $position->company->currency }} {{ number_format((float) $position->inventory_amount, 2) }}
+                                        {{ $position->company->currency_symbol }} {{ number_format((float) $position->inventory_amount, 2) }}
                                     </td>
 
                                     <!-- Realized Profit -->
@@ -285,7 +285,7 @@
                                         $realizedProfit = (float) $position->realized_profit;
                                     @endphp
                                     <td class="py-3 px-4 text-right font-mono font-semibold {{ $realizedProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($realizedProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
-                                        {{ $realizedProfit > 0 ? '+' : '' }}{{ $position->company->currency }} {{ number_format($realizedProfit, 2) }}
+                                        {{ $realizedProfit > 0 ? '+' : '' }}{{ $position->company->currency_symbol }} {{ number_format($realizedProfit, 2) }}
                                     </td>
 
                                     <!-- Last Transaction -->
@@ -297,11 +297,11 @@
                                     <td class="py-3 px-4 text-center">
                                         @if ($position->isHolding())
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                                                Holding
+                                                {{ __('portfolio.holding') }}
                                             </span>
                                         @else
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                                                Zero
+                                                {{ __('portfolio.zero') }}
                                             </span>
                                         @endif
                                     </td>
@@ -311,11 +311,11 @@
                                         <div class="flex items-center justify-end gap-2.5">
                                             <a href="{{ route('portfolio.positions.show', $position) }}"
                                                class="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors">
-                                                <span>Details</span>
+                                                <span>{{ __('portfolio.details') }}</span>
                                             </a>
                                             <a href="{{ route('stocks.show', $position->company) }}"
                                                class="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 transition-colors">
-                                                <span>Workspace</span>
+                                                <span>{{ __('portfolio.workspace') }}</span>
                                                 <span>&rarr;</span>
                                             </a>
                                         </div>
@@ -324,8 +324,8 @@
                             @empty
                                 <tr>
                                     <td colspan="10" class="py-12 text-center text-slate-500 dark:text-slate-400">
-                                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">No positions match the specified filters</p>
-                                        <p class="text-xs text-slate-400 mt-1">Try clearing your search query or adjusting your filters.</p>
+                                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ __('portfolio.no_matching_positions') }}</p>
+                                        <p class="text-xs text-slate-400 mt-1">{{ __('portfolio.try_clearing_filters') }}</p>
                                     </td>
                                 </tr>
                             @endforelse

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" class="h-full">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,8 +26,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="font-bold text-white tracking-tight leading-none text-base">StockSystem</h1>
-                    <span class="text-xs text-slate-400">Portfolio & Ledger</span>
+                    <h1 class="font-bold text-white tracking-tight leading-none text-base">{{ __('common.app_name') }}</h1>
+                    <span class="text-xs text-slate-400">{{ __('common.app_tagline') }}</span>
                 </div>
             </div>
 
@@ -38,7 +38,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                    <span>Dashboard</span>
+                    <span>{{ __('navigation.dashboard') }}</span>
                 </a>
 
                 <!-- Stocks Submenu -->
@@ -47,13 +47,13 @@
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
-                        <span>Stocks</span>
+                        <span>{{ __('navigation.stocks') }}</span>
                     </div>
                     <div class="ml-4 pl-2 border-l border-slate-800 space-y-1">
                         <a href="{{ route('companies.index') }}"
                            class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-colors {{ request()->routeIs('companies.*') || request()->routeIs('admin.companies.*') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
                             <span class="w-1.5 h-1.5 rounded-full {{ request()->routeIs('companies.*') || request()->routeIs('admin.companies.*') ? 'bg-white' : 'bg-slate-500' }}"></span>
-                            <span>Companies</span>
+                            <span>{{ __('navigation.companies') }}</span>
                         </a>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                     </svg>
-                    <span>Transactions</span>
+                    <span>{{ __('navigation.transactions') }}</span>
                 </a>
 
                 <a href="{{ route('portfolio.index') }}"
@@ -72,7 +72,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                     </svg>
-                    <span>Portfolio</span>
+                    <span>{{ __('navigation.portfolio') }}</span>
                 </a>
 
                 <a href="{{ route('reports.index') }}"
@@ -80,7 +80,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <span>Reports</span>
+                    <span>{{ __('navigation.reports') }}</span>
                 </a>
 
                 <a href="{{ route('analytics.index') }}"
@@ -88,7 +88,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
                     </svg>
-                    <span>Analytics</span>
+                    <span>{{ __('navigation.analytics') }}</span>
                 </a>
 
                 <a href="{{ route('settings.index') }}"
@@ -97,12 +97,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span>Settings</span>
+                    <span>{{ __('navigation.settings') }}</span>
                 </a>
             </nav>
 
-            <!-- User Info at Bottom of Sidebar -->
-            <div class="p-4 border-t border-slate-800 bg-slate-950/30">
+            <!-- User Info & Mobile Lang at Bottom of Sidebar -->
+            <div class="p-4 border-t border-slate-800 bg-slate-950/30 space-y-3">
                 <div class="flex items-center justify-between">
                     <div class="min-w-0">
                         <p class="text-xs font-semibold text-white truncate">{{ auth()->user()->name }}</p>
@@ -131,7 +131,24 @@
                     @endisset
                 </div>
 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <!-- Language Selector -->
+                    <div class="flex items-center text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 p-0.5" role="group" aria-label="Language Selector">
+                        <a href="{{ route('locale.switch', 'en') }}"
+                           id="lang-switch-en"
+                           class="px-2.5 py-1 rounded-md transition-colors {{ app()->getLocale() === 'en' ? 'bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' }}"
+                           title="Switch to English">
+                            EN
+                        </a>
+                        <span class="text-slate-300 dark:text-slate-600 text-[10px]">|</span>
+                        <a href="{{ route('locale.switch', 'zh_TW') }}"
+                           id="lang-switch-zhtw"
+                           class="px-2.5 py-1 rounded-md transition-colors {{ app()->getLocale() === 'zh_TW' ? 'bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' }}"
+                           title="切換至繁體中文">
+                            繁中
+                        </a>
+                    </div>
+
                     <div class="text-right hidden sm:block">
                         <span class="text-sm font-medium text-slate-800 dark:text-slate-200">{{ auth()->user()->name }}</span>
                     </div>
@@ -144,7 +161,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>
-                            <span>Logout</span>
+                            <span>{{ __('navigation.logout') }}</span>
                         </button>
                     </form>
                 </div>

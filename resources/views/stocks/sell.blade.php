@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        Record SELL Transaction &bull; {{ $company->symbol }}
+        {{ __('stocks.record_sell_title', ['symbol' => $company->symbol]) }}
     </x-slot>
 
     <div class="max-w-2xl mx-auto space-y-6">
@@ -13,43 +13,43 @@
                     </span>
                     <div>
                         <h2 class="text-base font-bold text-slate-900 dark:text-white">{{ $company->name }}</h2>
-                        <span class="text-xs text-slate-400 font-medium">{{ $company->exchange }} &bull; Currency: {{ $company->currency }}</span>
+                        <span class="text-xs text-slate-400 font-medium">{{ $company->exchange }} &bull; {{ __('stocks.currency') }}: {{ $company->currency }}</span>
                     </div>
                 </div>
 
                 <a href="{{ route('stocks.show', $company) }}"
                    class="text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
-                    &larr; Back to Workspace
+                    &larr; {{ __('stocks.back_to_workspace') }}
                 </a>
             </div>
 
             <!-- Current Position Stats Snapshot -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 pt-1">
                 <div>
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Available Shares</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.available_shares') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
                         {{ number_format((float) ($position?->quantity ?? 0), 4) }}
                     </span>
                 </div>
                 <div>
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Current WAC</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.weighted_avg_price') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
-                        {{ $company->currency }} {{ number_format((float) ($position?->average_price ?? 0), 4) }}
+                        {{ $company->currency_symbol }} {{ number_format((float) ($position?->average_price ?? 0), 4) }}
                     </span>
                 </div>
                 <div>
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Inventory Cost</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.inventory_amount') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
-                        {{ $company->currency }} {{ number_format((float) ($position?->inventory_amount ?? 0), 2) }}
+                        {{ $company->currency_symbol }} {{ number_format((float) ($position?->inventory_amount ?? 0), 2) }}
                     </span>
                 </div>
                 <div>
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Realized Profit</span>
+                    <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.realized_profit') }}</span>
                     @php
                         $realizedProfit = (float) ($position?->realized_profit ?? 0);
                     @endphp
                     <span class="text-sm font-bold font-mono {{ $realizedProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($realizedProfit < 0 ? 'text-red-600 dark:text-red-400' : 'text-slate-800 dark:text-slate-200') }}">
-                        {{ $company->currency }} {{ number_format($realizedProfit, 2) }}
+                        {{ $company->currency_symbol }} {{ number_format($realizedProfit, 2) }}
                     </span>
                 </div>
             </div>
@@ -68,9 +68,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <div>
-                        <p class="font-bold">No shares currently available to sell.</p>
+                        <p class="font-bold">{{ __('stocks.no_shares_to_sell') }}</p>
                         <p class="text-[11px] text-amber-700 dark:text-amber-300 mt-0.5">
-                            You currently hold 0.0000 shares of {{ $company->symbol }}. You must record a BUY transaction before you can sell.
+                            {{ __('stocks.no_shares_desc', ['symbol' => $company->symbol]) }}
                         </p>
                     </div>
                 </div>
@@ -80,15 +80,15 @@
         <!-- SELL Transaction Form -->
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="pb-4 mb-6 border-b border-slate-200 dark:border-slate-700">
-                <h3 class="text-base font-bold text-slate-900 dark:text-white">Execute SELL Order</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ __('stocks.execute_sell_order') }}</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Position quantity and inventory cost will decrease using the existing WAC basis ({{ $company->currency }} {{ number_format($currentWac, 4) }}). Realized profit/loss will be added to your cumulative total.
+                    {{ __('stocks.sell_atomic_desc', ['currency' => $company->currency, 'wac' => number_format($currentWac, 4)]) }}
                 </p>
             </div>
 
             @if ($errors->any())
                 <div class="mb-6 p-4 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-xs text-red-700 dark:text-red-300">
-                    <p class="font-bold mb-1">Please correct the following errors:</p>
+                    <p class="font-bold mb-1">{{ __('common.error') }}:</p>
                     <ul class="list-disc list-inside space-y-0.5">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -106,13 +106,13 @@
                     <div>
                         <div class="flex items-center justify-between mb-1">
                             <label for="quantity" class="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Sell Quantity <span class="text-red-500">*</span>
+                                {{ __('stocks.sell_quantity') }} <span class="text-red-500">*</span>
                             </label>
                             @if ($hasShares)
                                 <button type="button"
                                         id="sell-max-btn"
                                         class="text-[11px] font-semibold text-rose-600 dark:text-rose-400 hover:underline">
-                                    Sell All ({{ number_format($availableQty, 4) }})
+                                    {{ __('stocks.sell_all', ['qty' => number_format($availableQty, 4)]) }}
                                 </button>
                             @endif
                         </div>
@@ -128,32 +128,32 @@
                                {{ ! $hasShares ? 'disabled' : '' }}
                                class="w-full px-3 py-2 text-xs font-mono rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-rose-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed">
                         <p class="text-[11px] text-slate-400 mt-1">
-                            Available to sell: <span class="font-mono font-semibold">{{ number_format($availableQty, 4) }}</span> shares.
+                            {{ __('stocks.available_to_sell') }} <span class="font-mono font-semibold">{{ number_format($availableQty, 4) }}</span> {{ __('transactions.shares') }}.
                         </p>
                     </div>
 
                     <div>
                         <label for="price" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                            Unit Sell Price ({{ $company->currency }}) <span class="text-red-500">*</span>
+                            {{ __('stocks.unit_sell_price', ['currency' => $company->currency]) }} <span class="text-red-500">*</span>
                         </label>
                         <input type="number"
                                id="price"
                                name="price"
                                step="0.00000001"
                                min="0.00000001"
-                               value="{{ old('price') }}"
+                               value="{{ old('price', $company->last_price ?? ($position && (float) $position->average_price > 0 ? (float) $position->average_price : '')) }}"
                                placeholder="e.g. 70.00"
                                required
                                {{ ! $hasShares ? 'disabled' : '' }}
                                class="w-full px-3 py-2 text-xs font-mono rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-rose-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed">
-                        <p class="text-[11px] text-slate-400 mt-1">Execution selling price per share.</p>
+                        <p class="text-[11px] text-slate-400 mt-1">{{ __('stocks.exec_selling_price_desc') }}</p>
                     </div>
                 </div>
 
                 <!-- Transaction Date -->
                 <div>
                     <label for="transaction_date" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Transaction Date <span class="text-red-500">*</span>
+                        {{ __('stocks.transaction_date') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="date"
                            id="transaction_date"
@@ -167,32 +167,32 @@
                 <!-- Non-authoritative Estimation Card -->
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 space-y-2">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-600 dark:text-slate-300 font-medium">Estimated Gross Revenue:</span>
+                        <span class="text-slate-600 dark:text-slate-300 font-medium">{{ __('stocks.estimated_gross_revenue') }}</span>
                         <span id="preview-amount" class="font-bold font-mono text-slate-900 dark:text-white">
                             {{ $company->currency }} 0.00
                         </span>
                     </div>
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-600 dark:text-slate-300 font-medium">Cost of Sold Inventory (WAC basis):</span>
+                        <span class="text-slate-600 dark:text-slate-300 font-medium">{{ __('stocks.cost_sold_inventory') }}</span>
                         <span id="preview-cost" class="font-bold font-mono text-slate-600 dark:text-slate-400">
                             {{ $company->currency }} 0.00
                         </span>
                     </div>
                     <div class="flex items-center justify-between text-xs pt-1.5 border-t border-slate-200 dark:border-slate-700">
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">Estimated Realized Profit / (Loss):</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ __('stocks.estimated_realized_pl') }}</span>
                         <span id="preview-profit" class="font-bold font-mono text-slate-900 dark:text-white">
                             {{ $company->currency }} 0.00
                         </span>
                     </div>
                     <span class="block text-[11px] text-slate-400 pt-1">
-                        * Preview estimate only. Authoritative amounts, cost basis, and realized profit are calculated on the server.
+                        {{ __('stocks.preview_estimate_sell') }}
                     </span>
                 </div>
 
                 <!-- Notes -->
                 <div>
                     <label for="notes" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Transaction Notes (Optional)
+                        {{ __('stocks.transaction_notes') }}
                     </label>
                     <textarea id="notes"
                               name="notes"
@@ -206,7 +206,7 @@
                 <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-slate-700">
                     <a href="{{ route('stocks.show', $company) }}"
                        class="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg border border-slate-300 dark:border-slate-600 transition-colors">
-                        Cancel
+                        {{ __('common.cancel') }}
                     </a>
 
                     <button type="submit"
@@ -215,7 +215,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                         </svg>
-                        <span>Confirm SELL Order</span>
+                        <span>{{ __('stocks.confirm_sell_order') }}</span>
                     </button>
                 </div>
             </form>

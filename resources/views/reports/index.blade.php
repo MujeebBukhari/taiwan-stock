@@ -8,15 +8,15 @@
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-700">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Historical Financial Reports</h2>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">{{ __('reports.historical_reports') }}</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        Historical ledger analytics, period breakdowns, and realized profit reports based on immutable transaction records.
+                        {{ __('reports.historical_reports_desc') }}
                     </p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
-                        Accounting Mode: Cost Basis (WAC)
+                        {{ __('reports.accounting_mode_wac') }}
                     </span>
 
                     <!-- Export Buttons (preserves all active filters) -->
@@ -26,7 +26,7 @@
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        <span>Export Excel</span>
+                        <span>{{ __('reports.export_excel') }}</span>
                     </a>
 
                     <a href="{{ route('reports.export.pdf', request()->query()) }}"
@@ -35,7 +35,7 @@
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
-                        <span>Export PDF</span>
+                        <span>{{ __('reports.export_pdf') }}</span>
                     </a>
                 </div>
             </div>
@@ -164,9 +164,9 @@
         <!-- 1. Portfolio Summary Report -->
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="pb-4 mb-4 border-b border-slate-200 dark:border-slate-700">
-                <h3 class="text-base font-bold text-slate-900 dark:text-white">1. Current Portfolio Status</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">1. {{ __('reports.current_portfolio_status') }}</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Current consolidated holdings based on Weighted Average Cost (WAC) acquisition basis.
+                    {{ __('reports.current_portfolio_desc') }}
                 </p>
             </div>
 
@@ -233,9 +233,9 @@
         <!-- 2. Transaction Activity Report -->
         <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="pb-4 mb-4 border-b border-slate-200 dark:border-slate-700">
-                <h3 class="text-base font-bold text-slate-900 dark:text-white">2. Historical Transaction Activity</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">2. {{ __('reports.historical_tx_activity') }}</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Lifetime aggregate volume across BUY and SELL ledger records matching active filters.
+                    {{ __('reports.historical_tx_desc') }}
                 </p>
             </div>
 
@@ -305,9 +305,9 @@
         <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">3. Company-Wise Portfolio Summary</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">3. {{ __('reports.company_wise_summary') }}</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Trading activity and current position cost basis for each company.
+                        {{ __('reports.company_wise_desc') }}
                     </p>
                 </div>
                 <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
@@ -381,9 +381,9 @@
         <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">4. Monthly Historical Activity</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">4. {{ __('reports.monthly_activity') }}</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Trading volume, capital flows, and realized profit grouped chronologically by calendar month.
+                        {{ __('reports.monthly_activity_desc') }}
                     </p>
                 </div>
                 <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
@@ -440,9 +440,9 @@
         <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">5. Annual Summary</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">5. {{ __('reports.annual_summary') }}</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Year-by-year summary of total trade volume and realized trading results.
+                        {{ __('reports.annual_summary_desc') }}
                     </p>
                 </div>
                 <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
@@ -499,9 +499,9 @@
         <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">6. Realized Profit / Loss Analysis by Company</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">6. {{ __('reports.realized_pl_analysis') }}</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Breakdown of closed SELL transactions showing revenue, consumed WAC cost basis, and net profit.
+                        {{ __('reports.realized_pl_analysis_desc') }}
                     </p>
                 </div>
                 <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
@@ -537,13 +537,13 @@
                                 </td>
                                 <td class="py-3 px-4 text-center font-mono">{{ $rp['sell_transactions_count'] }}</td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-semibold">
-                                    {{ $rp['company']->currency }} {{ number_format((float) $rp['total_sell_revenue'], 2) }}
+                                    {{ $rp['company']->currency_symbol }} {{ number_format((float) $rp['total_sell_revenue'], 2) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-600 dark:text-slate-400">
-                                    {{ $rp['company']->currency }} {{ number_format((float) $rp['total_sell_cost_basis'], 2) }}
+                                    {{ $rp['company']->currency_symbol }} {{ number_format((float) $rp['total_sell_cost_basis'], 2) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono font-bold {{ $profitVal > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($profitVal < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
-                                    {{ $profitVal > 0 ? '+' : '' }}{{ $rp['company']->currency }} {{ number_format($profitVal, 2) }}
+                                    {{ $profitVal > 0 ? '+' : '' }}{{ $rp['company']->currency_symbol }} {{ number_format($profitVal, 2) }}
                                 </td>
                             </tr>
                         @empty

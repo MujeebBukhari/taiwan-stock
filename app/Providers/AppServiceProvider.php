@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Services\MarketData\MarketDataProviderInterface;
+use App\Services\MarketData\TaiwanMarketDataProvider;
+use App\Services\MarketData\VietnamMarketDataProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +16,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->useLangPath(resource_path('lang'));
+
+        $this->app->bind(
+            MarketDataProviderInterface::class,
+            function () {
+                $provider = config('market_data.default', 'taiwan');
+
+                return match ($provider) {
+                    'vietnam' => new VietnamMarketDataProvider,
+                    default => new TaiwanMarketDataProvider,
+                };
+            }
+        );
     }
 
     /**

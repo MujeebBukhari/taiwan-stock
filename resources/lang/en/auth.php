@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'login' => 'Log In',
+    'login_title' => 'Log in to your account',
+    'email' => 'Email',
+    'password' => 'Password',
+    'remember_me' => 'Remember me',
+    'forgot_password' => 'Forgot Password?',
+    'log_in' => 'Log In',
+    'register' => 'Register',
+    'name' => 'Name',
+    'confirm_password' => 'Confirm Password',
+    'already_registered' => 'Already registered?',
+    'reset_password' => 'Reset Password',
+    'send_reset_link' => 'Email Password Reset Link',
+    'email_reset_link' => 'Email Password Reset Link',
+    'forgot_password_desc' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link to choose a new one.',
+    'back_to_login' => 'Back to login',
+    'reset_password_desc' => 'Enter your email and chosen new password.',
+    'new_password' => 'New Password',
+    'confirm_new_password' => 'Confirm New Password',
+    'failed' => 'These credentials do not match our records.',
+    'password_error' => 'The provided password is incorrect.',
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'account_inactive' => 'Your account is inactive. Please contact the administrator.',
+];

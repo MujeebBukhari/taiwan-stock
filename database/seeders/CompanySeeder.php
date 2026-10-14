@@ -13,6 +13,31 @@ class CompanySeeder extends Seeder
     public function run(): void
     {
         $companies = [
+            // TWSE (Taiwan Stock Exchange - Primary Market)
+            ['symbol' => '2330', 'name' => 'Taiwan Semiconductor Manufacturing Co. (TSMC)', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '980.00', 'is_active' => true],
+            ['symbol' => '2317', 'name' => 'Hon Hai Precision Industry (Foxconn)', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '185.00', 'is_active' => true],
+            ['symbol' => '2454', 'name' => 'MediaTek Inc.', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '1250.00', 'is_active' => true],
+            ['symbol' => '2412', 'name' => 'Chunghwa Telecom Co., Ltd.', 'exchange' => 'TWSE', 'sector' => 'Communication Services', 'currency' => 'TWD', 'last_price' => '125.00', 'is_active' => true],
+            ['symbol' => '2881', 'name' => 'Fubon Financial Holding Co., Ltd.', 'exchange' => 'TWSE', 'sector' => 'Financials', 'currency' => 'TWD', 'last_price' => '88.50', 'is_active' => true],
+            ['symbol' => '2882', 'name' => 'Cathay Financial Holding Co., Ltd.', 'exchange' => 'TWSE', 'sector' => 'Financials', 'currency' => 'TWD', 'last_price' => '65.00', 'is_active' => true],
+            ['symbol' => '2308', 'name' => 'Delta Electronics, Inc.', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '390.00', 'is_active' => true],
+            ['symbol' => '2891', 'name' => 'CTBC Financial Holding Co., Ltd.', 'exchange' => 'TWSE', 'sector' => 'Financials', 'currency' => 'TWD', 'last_price' => '36.50', 'is_active' => true],
+            ['symbol' => '1301', 'name' => 'Formosa Plastics Corporation', 'exchange' => 'TWSE', 'sector' => 'Materials', 'currency' => 'TWD', 'last_price' => '50.00', 'is_active' => true],
+            ['symbol' => '2002', 'name' => 'China Steel Corporation', 'exchange' => 'TWSE', 'sector' => 'Materials', 'currency' => 'TWD', 'last_price' => '22.00', 'is_active' => true],
+            ['symbol' => '2382', 'name' => 'Quanta Computer Inc.', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '270.00', 'is_active' => true],
+            ['symbol' => '2357', 'name' => 'ASUSTeK Computer Inc.', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '540.00', 'is_active' => true],
+            ['symbol' => '3008', 'name' => 'Largan Precision Co., Ltd.', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '2500.00', 'is_active' => true],
+            ['symbol' => '3711', 'name' => 'ASE Technology Holding Co., Ltd.', 'exchange' => 'TWSE', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '155.00', 'is_active' => true],
+            ['symbol' => '1216', 'name' => 'Uni-President Enterprises Corp.', 'exchange' => 'TWSE', 'sector' => 'Consumer Staples', 'currency' => 'TWD', 'last_price' => '82.00', 'is_active' => true],
+            ['symbol' => '2886', 'name' => 'Mega Financial Holding Co., Ltd.', 'exchange' => 'TWSE', 'sector' => 'Financials', 'currency' => 'TWD', 'last_price' => '39.00', 'is_active' => true],
+
+            // TPEx (Taipei Exchange - Taiwan Secondary / OTC Market)
+            ['symbol' => '5347', 'name' => 'Vanguard International Semiconductor Corp.', 'exchange' => 'TPEx', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '102.00', 'is_active' => true],
+            ['symbol' => '3105', 'name' => 'Win Semiconductors Corp.', 'exchange' => 'TPEx', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '128.00', 'is_active' => true],
+            ['symbol' => '8299', 'name' => 'Phison Electronics Corp.', 'exchange' => 'TPEx', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '530.00', 'is_active' => true],
+            ['symbol' => '6488', 'name' => 'GlobalWafers Co., Ltd.', 'exchange' => 'TPEx', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '420.00', 'is_active' => true],
+            ['symbol' => '5483', 'name' => 'Sino-American Silicon Products Inc.', 'exchange' => 'TPEx', 'sector' => 'Technology', 'currency' => 'TWD', 'last_price' => '145.00', 'is_active' => true],
+
             // NASDAQ (Technology, Consumer, Communication)
             ['symbol' => 'AAPL', 'name' => 'Apple Inc.', 'exchange' => 'NASDAQ', 'sector' => 'Technology', 'currency' => 'USD', 'is_active' => true],
             ['symbol' => 'MSFT', 'name' => 'Microsoft Corporation', 'exchange' => 'NASDAQ', 'sector' => 'Technology', 'currency' => 'USD', 'is_active' => true],

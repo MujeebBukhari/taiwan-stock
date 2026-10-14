@@ -152,4 +152,20 @@ class AuthenticationTest extends TestCase
         $response->assertSee('showPassword');
         $response->assertSee('Remember me');
     }
+
+    public function test_guest_visiting_root_path_is_redirected_to_login(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertRedirect('/login');
+    }
+
+    public function test_authenticated_user_visiting_root_path_is_redirected_to_dashboard(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/');
+
+        $response->assertRedirect(route('dashboard', absolute: false));
+    }
 }

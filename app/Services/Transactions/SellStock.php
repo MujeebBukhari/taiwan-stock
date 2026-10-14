@@ -132,6 +132,9 @@ class SellStock
                 'last_transaction_at' => $transactionDate,
             ]);
 
+            // Update the company's latest traded/entered price
+            $company->update(['last_price' => $priceStr]);
+
             return $transaction;
         });
     }

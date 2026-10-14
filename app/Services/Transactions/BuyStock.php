@@ -123,6 +123,9 @@ class BuyStock
                 ]);
             }
 
+            // Update the company's latest traded/entered price
+            $company->update(['last_price' => $priceStr]);
+
             return $transaction;
         });
     }
