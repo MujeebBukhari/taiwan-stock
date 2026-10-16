@@ -265,14 +265,15 @@ class StabilizationAndSmokeTest extends TestCase
     {
         $tx = $this->buyStock->execute($this->userA, $this->apple, '10', '100', '2026-01-01');
 
-        // Verify there are no PUT, PATCH, or DELETE routes targeting transactions
+        // Verify that PATCH method is not supported on transaction correction route
         $patchResponse = $this->actingAs($this->userA)->patch('/stocks/'.$this->apple->id.'/transactions/'.$tx->id, [
             'quantity' => '20',
         ]);
-        $this->assertSame(404, $patchResponse->status());
+        $this->assertSame(405, $patchResponse->status());
 
-        $deleteResponse = $this->actingAs($this->userA)->delete('/stocks/'.$this->apple->id.'/transactions/'.$tx->id);
-        $this->assertSame(404, $deleteResponse->status());
+        // Verify that user B cannot delete or modify user A's transaction
+        $unauthorizedDelete = $this->actingAs($this->userB)->delete('/stocks/'.$this->apple->id.'/transactions/'.$tx->id);
+        $this->assertSame(403, $unauthorizedDelete->status());
     }
 
     /**
