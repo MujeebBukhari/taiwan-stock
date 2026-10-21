@@ -6,6 +6,7 @@ use App\Enums\TransactionType;
 use App\Models\StockPosition;
 use App\Models\User;
 use App\Services\Financial\FinancialMath;
+use App\Support\Currency;
 
 class PortfolioAnalyticsService
 {
@@ -140,17 +141,22 @@ class PortfolioAnalyticsService
         $profitData = [];
         $colors = [];
         $cumulativeProfit = '0.00000000';
+        $currency = Currency::getUserCurrency();
+        $isUsd = $currency === Currency::USD;
 
         foreach ($monthlyReport as $item) {
             // Only include months that had transactions
             $labels[] = $item['month_name'];
-            $profitFloat = (float) $item['total_realized_profit'];
+            $val = $isUsd
+                ? Currency::convertAmount($item['total_realized_profit'], Currency::TWD, Currency::USD)
+                : $item['total_realized_profit'];
+            $profitFloat = (float) $val;
             $profitData[] = $profitFloat;
             $colors[] = $profitFloat >= 0 ? '#10b981' : '#f43f5e';
 
             $cumulativeProfit = FinancialMath::add(
                 $cumulativeProfit,
-                $item['total_realized_profit'],
+                $val,
                 FinancialMath::DEFAULT_SCALE
             );
         }
@@ -203,10 +209,15 @@ class PortfolioAnalyticsService
         $profitValues = [];
         $colors = [];
         $tableData = [];
+        $currency = Currency::getUserCurrency();
+        $isUsd = $currency === Currency::USD;
 
         foreach ($realizedList as $item) {
             $labels[] = $item['company']->symbol;
-            $profitFloat = (float) $item['realized_profit'];
+            $val = $isUsd
+                ? Currency::convertAmount($item['realized_profit'], Currency::TWD, Currency::USD)
+                : $item['realized_profit'];
+            $profitFloat = (float) $val;
             $profitValues[] = $profitFloat;
             $colors[] = $profitFloat >= 0 ? '#10b981' : '#f43f5e';
 
@@ -298,6 +309,8 @@ class PortfolioAnalyticsService
         $tableData = [];
         $totalCostBasis = '0.00000000';
         $idx = 0;
+        $currency = Currency::getUserCurrency();
+        $isUsd = $currency === Currency::USD;
 
         foreach ($positions as $position) {
             if (! $position->company) {
@@ -305,14 +318,17 @@ class PortfolioAnalyticsService
             }
 
             $labels[] = $position->company->symbol;
-            $costFloat = (float) $position->inventory_amount;
+            $val = $isUsd
+                ? Currency::convertAmount((string) $position->inventory_amount, Currency::TWD, Currency::USD)
+                : (string) $position->inventory_amount;
+            $costFloat = (float) $val;
             $costValues[] = $costFloat;
             $colors[] = $palette[$idx % count($palette)];
             $idx++;
 
             $totalCostBasis = FinancialMath::add(
                 $totalCostBasis,
-                (string) $position->inventory_amount,
+                $val,
                 FinancialMath::DEFAULT_SCALE
             );
 

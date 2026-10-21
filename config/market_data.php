@@ -6,7 +6,7 @@ return [
     | Default Market Data Provider
     |--------------------------------------------------------------------------
     |
-    | Supported: "taiwan" (TWSE, TPEx), "vietnam" (TCBS / HOSE, HNX, UPCOM)
+    | Supported: "taiwan" (TWSE, TPEx)
     |
     */
     'default' => env('MARKET_DATA_PROVIDER', 'taiwan'),
@@ -44,13 +44,6 @@ return [
             'api_key' => env('TAIWAN_MARKET_DATA_API_KEY', null),
             'timeout' => (int) env('TAIWAN_MARKET_DATA_TIMEOUT', 5),
             'supported_exchanges' => ['TWSE', 'TPEx'],
-        ],
-        'vietnam' => [
-            'name' => 'TCBS Vietnam Market Data',
-            'base_url' => env('VIETNAM_MARKET_DATA_BASE_URL', 'https://apipubaws.tcbs.com.vn'),
-            'api_key' => env('VIETNAM_MARKET_DATA_API_KEY', null),
-            'timeout' => (int) env('VIETNAM_MARKET_DATA_TIMEOUT', 5),
-            'supported_exchanges' => ['HOSE', 'HNX', 'UPCOM'],
         ],
     ],
 ];

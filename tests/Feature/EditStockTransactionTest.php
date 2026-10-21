@@ -2,10 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Enums\TransactionType;
 use App\Models\Company;
 use App\Models\StockPosition;
-use App\Models\StockTransaction;
 use App\Models\User;
 use App\Services\Transactions\BuyStock;
 use App\Services\Transactions\SellStock;

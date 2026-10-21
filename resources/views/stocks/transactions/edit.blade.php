@@ -42,18 +42,22 @@
                 <div>
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('transactions.total_amount') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
-                        {{ $company->currency_symbol }} {{ number_format((float) $transaction->amount, 2) }}
+                        {{ \App\Support\Currency::formatConverted($transaction->amount) }}
                     </span>
                 </div>
                 <div>
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">
                         {{ $transaction->type->isBuy() ? __('transactions.cost') : __('transactions.realized_profit') }}
                     </span>
-                    <span class="text-sm font-bold font-mono {{ $transaction->type->isSell() && (float) $transaction->realized_profit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($transaction->type->isSell() && (float) $transaction->realized_profit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-800 dark:text-slate-200') }}">
+                    @php
+                        $isEditProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $transaction->realized_profit, '0');
+                        $isEditProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $transaction->realized_profit, '0');
+                    @endphp
+                    <span class="text-sm font-bold font-mono {{ $transaction->type->isSell() && $isEditProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($transaction->type->isSell() && $isEditProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-800 dark:text-slate-200') }}">
                         @if ($transaction->type->isBuy())
-                            {{ $company->currency_symbol }} {{ number_format((float) $transaction->cost, 2) }}
+                            {{ \App\Support\Currency::formatConverted($transaction->cost) }}
                         @else
-                            {{ (float) $transaction->realized_profit > 0 ? '+' : '' }}{{ $company->currency_symbol }} {{ number_format((float) $transaction->realized_profit, 2) }}
+                            {{ \App\Support\Currency::formatConverted($transaction->realized_profit, showPlusSign: true) }}
                         @endif
                     </span>
                 </div>

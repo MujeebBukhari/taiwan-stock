@@ -3,6 +3,7 @@
 namespace App\Exports\Sheets;
 
 use App\Models\Company;
+use App\Support\Currency;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithFreezePane;
@@ -45,6 +46,8 @@ class CompanySummarySheet implements FromArray, ShouldAutoSize, WithFreezePane, 
 
     public function headings(): array
     {
+        $currency = Currency::getUserCurrency();
+
         return [
             'Company',
             'Symbol',
@@ -53,16 +56,18 @@ class CompanySummarySheet implements FromArray, ShouldAutoSize, WithFreezePane, 
             'SELL Transactions',
             'Total BUY Quantity',
             'Total SELL Quantity',
-            'Total BUY Amount',
-            'Total SELL Amount',
-            'Realized Profit',
+            'Total BUY Amount ('.$currency.')',
+            'Total SELL Amount ('.$currency.')',
+            'Realized Profit ('.$currency.')',
             'Current Quantity',
-            'Current Inventory Cost Basis',
+            'Current Inventory Cost Basis ('.$currency.')',
         ];
     }
 
     public function array(): array
     {
+        $currency = Currency::getUserCurrency();
+        $isUsd = $currency === Currency::USD;
         $rows = [];
 
         foreach ($this->companyWise as $item) {
@@ -74,11 +79,11 @@ class CompanySummarySheet implements FromArray, ShouldAutoSize, WithFreezePane, 
                 $item['sell_transactions_count'],
                 (float) $item['total_buy_quantity'],
                 (float) $item['total_sell_quantity'],
-                (float) $item['total_buy_amount'],
-                (float) $item['total_sell_amount'],
-                (float) $item['total_realized_profit'],
+                $isUsd ? (float) Currency::convertAmount($item['total_buy_amount'], Currency::TWD, Currency::USD) : (float) $item['total_buy_amount'],
+                $isUsd ? (float) Currency::convertAmount($item['total_sell_amount'], Currency::TWD, Currency::USD) : (float) $item['total_sell_amount'],
+                $isUsd ? (float) Currency::convertAmount($item['total_realized_profit'], Currency::TWD, Currency::USD) : (float) $item['total_realized_profit'],
                 (float) $item['current_quantity'],
-                (float) $item['current_inventory_cost'],
+                $isUsd ? (float) Currency::convertAmount($item['current_inventory_cost'], Currency::TWD, Currency::USD) : (float) $item['current_inventory_cost'],
             ];
         }
 

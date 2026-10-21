@@ -183,6 +183,7 @@
             <td class="meta-text" style="vertical-align: top;">
                 <div><strong>Generated:</strong> {{ $generatedAt }}</div>
                 <div><strong>User:</strong> {{ $userName }} ({{ $userEmail }})</div>
+                <div><strong>Display Currency:</strong> {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 'US$ USD (Converted from TWD at 1 TWD = ' . \App\Support\Currency::getRate('TWD', 'USD') . ' USD)' : 'NT$ TWD (Accounting Currency)' }}</div>
             </td>
         </tr>
     </table>
@@ -225,7 +226,7 @@
         <tr>
             <td class="summary-card">
                 <div class="summary-card-label">Inventory Cost Basis</div>
-                <div class="summary-card-val">{{ number_format((float) $portfolioSummary['total_inventory_cost'], 2) }}</div>
+                <div class="summary-card-val">{{ \App\Support\Currency::formatConverted($portfolioSummary['total_inventory_cost']) }}</div>
             </td>
             <td class="summary-card">
                 <div class="summary-card-label">Total Quantity</div>
@@ -247,7 +248,7 @@
                 <div class="summary-card-label">Total Realized Profit</div>
                 @php $totProf = (float) $portfolioSummary['total_realized_profit']; @endphp
                 <div class="summary-card-val {{ $totProf > 0 ? 'text-success' : ($totProf < 0 ? 'text-danger' : '') }}">
-                    {{ $totProf > 0 ? '+' : '' }}{{ number_format($totProf, 2) }}
+                    {{ \App\Support\Currency::formatConverted($portfolioSummary['total_realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                 </div>
             </td>
         </tr>
@@ -276,12 +277,12 @@
                 <td class="text-center font-mono font-bold">{{ $transactionActivity['total_transactions'] }}</td>
                 <td class="text-right font-mono">{{ number_format((float) $transactionActivity['total_buy_quantity'], 4) }}</td>
                 <td class="text-right font-mono">{{ number_format((float) $transactionActivity['total_sell_quantity'], 4) }}</td>
-                <td class="text-right font-mono">{{ number_format((float) $transactionActivity['total_buy_amount'], 2) }}</td>
-                <td class="text-right font-mono">{{ number_format((float) $transactionActivity['total_sell_amount'], 2) }}</td>
-                <td class="text-right font-mono">{{ number_format((float) $transactionActivity['total_sell_cost'], 2) }}</td>
+                <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($transactionActivity['total_buy_amount']) }}</td>
+                <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($transactionActivity['total_sell_amount']) }}</td>
+                <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($transactionActivity['total_sell_cost']) }}</td>
                 @php $actProf = (float) $transactionActivity['total_realized_profit']; @endphp
                 <td class="text-right font-mono font-bold {{ $actProf > 0 ? 'text-success' : ($actProf < 0 ? 'text-danger' : '') }}">
-                    {{ $actProf > 0 ? '+' : '' }}{{ number_format($actProf, 2) }}
+                    {{ \App\Support\Currency::formatConverted($transactionActivity['total_realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                 </td>
             </tr>
         </tbody>
@@ -316,14 +317,14 @@
                     <td class="text-center font-mono">{{ $item['sell_transactions_count'] }}</td>
                     <td class="text-right font-mono">{{ number_format((float) $item['total_buy_quantity'], 4) }}</td>
                     <td class="text-right font-mono">{{ number_format((float) $item['total_sell_quantity'], 4) }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $item['total_buy_amount'], 2) }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $item['total_sell_amount'], 2) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($item['total_buy_amount']) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($item['total_sell_amount']) }}</td>
                     @php $cProf = (float) $item['total_realized_profit']; @endphp
                     <td class="text-right font-mono font-bold {{ $cProf > 0 ? 'text-success' : ($cProf < 0 ? 'text-danger' : '') }}">
-                        {{ $cProf > 0 ? '+' : '' }}{{ number_format($cProf, 2) }}
+                        {{ \App\Support\Currency::formatConverted($item['total_realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                     </td>
                     <td class="text-right font-mono font-bold">{{ number_format((float) $item['current_quantity'], 4) }}</td>
-                    <td class="text-right font-mono font-bold">{{ number_format((float) $item['current_inventory_cost'], 2) }}</td>
+                    <td class="text-right font-mono font-bold">{{ \App\Support\Currency::formatConverted($item['current_inventory_cost']) }}</td>
                 </tr>
             @empty
                 <tr>
@@ -356,11 +357,11 @@
                     <td class="text-center font-mono">{{ $m['sell_transactions_count'] }}</td>
                     <td class="text-right font-mono">{{ number_format((float) $m['total_buy_quantity'], 4) }}</td>
                     <td class="text-right font-mono">{{ number_format((float) $m['total_sell_quantity'], 4) }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $m['total_buy_amount'], 2) }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $m['total_sell_amount'], 2) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($m['total_buy_amount']) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($m['total_sell_amount']) }}</td>
                     @php $mProf = (float) $m['total_realized_profit']; @endphp
                     <td class="text-right font-mono font-bold {{ $mProf > 0 ? 'text-success' : ($mProf < 0 ? 'text-danger' : '') }}">
-                        {{ $mProf > 0 ? '+' : '' }}{{ number_format($mProf, 2) }}
+                        {{ \App\Support\Currency::formatConverted($m['total_realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                     </td>
                 </tr>
             @empty
@@ -394,11 +395,11 @@
                     <td class="text-center font-mono">{{ $yr['sell_transactions_count'] }}</td>
                     <td class="text-right font-mono">{{ number_format((float) $yr['total_buy_quantity'], 4) }}</td>
                     <td class="text-right font-mono">{{ number_format((float) $yr['total_sell_quantity'], 4) }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $yr['total_buy_amount'], 2) }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $yr['total_sell_amount'], 2) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($yr['total_buy_amount']) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($yr['total_sell_amount']) }}</td>
                     @php $yProf = (float) $yr['total_realized_profit']; @endphp
                     <td class="text-right font-mono font-bold {{ $yProf > 0 ? 'text-success' : ($yProf < 0 ? 'text-danger' : '') }}">
-                        {{ $yProf > 0 ? '+' : '' }}{{ number_format($yProf, 2) }}
+                        {{ \App\Support\Currency::formatConverted($yr['total_realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                     </td>
                 </tr>
             @empty
@@ -431,10 +432,10 @@
                     <td class="font-bold">{{ $rp['company']->symbol }}</td>
                     <td>{{ $rp['company']->currency }}</td>
                     <td class="text-center font-mono">{{ $rp['sell_transactions_count'] }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $rp['total_sell_revenue'], 2) }}</td>
-                    <td class="text-right font-mono">{{ number_format((float) $rp['total_sell_cost_basis'], 2) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($rp['total_sell_revenue']) }}</td>
+                    <td class="text-right font-mono">{{ \App\Support\Currency::formatConverted($rp['total_sell_cost_basis']) }}</td>
                     <td class="text-right font-mono font-bold {{ $rProf > 0 ? 'text-success' : ($rProf < 0 ? 'text-danger' : '') }}">
-                        {{ $rProf > 0 ? '+' : '' }}{{ number_format($rProf, 2) }}
+                        {{ \App\Support\Currency::formatConverted($rp['realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                     </td>
                 </tr>
             @empty
@@ -447,7 +448,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        Confidential Financial Accounting Report &bull; Computed using Weighted Average Cost (WAC) methodology from immutable transaction records. &bull; No market-price estimates or unrealized valuation applied.
+        Confidential Financial Accounting Report &bull; Computed using Weighted Average Cost (WAC) methodology from immutable transaction records. &bull; Display Currency: {{ \App\Support\Currency::getUserCurrency() }} &bull; Stored Accounting Currency: TWD.
     </div>
 </body>
 </html>

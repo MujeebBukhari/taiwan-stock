@@ -34,13 +34,13 @@
                 <div>
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.weighted_avg_price') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
-                        {{ $company->currency_symbol }} {{ number_format((float) ($position?->average_price ?? 0), 4) }}
+                        {{ \App\Support\Currency::formatConverted($position?->average_price ?? 0, decimals: 4) }}
                     </span>
                 </div>
                 <div>
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.inventory_amount') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
-                        {{ $company->currency_symbol }} {{ number_format((float) ($position?->inventory_amount ?? 0), 2) }}
+                        {{ \App\Support\Currency::formatConverted($position?->inventory_amount ?? 0) }}
                     </span>
                 </div>
             </div>
@@ -122,12 +122,19 @@
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">{{ __('stocks.estimated_purchase_amount') }}</span>
-                        <span id="preview-amount" class="text-sm font-bold font-mono text-emerald-600 dark:text-emerald-400">
-                            {{ $company->currency }} 0.00
-                        </span>
+                        <div class="text-right">
+                            <span id="preview-amount" class="text-sm font-bold font-mono text-emerald-600 dark:text-emerald-400">
+                                {{ $company->currency }} 0.00
+                            </span>
+                            @if(\App\Support\Currency::getUserCurrency() === 'USD')
+                                <span id="preview-amount-usd" class="block text-xs font-mono text-slate-500">
+                                    ≈ US$ 0.00
+                                </span>
+                            @endif
+                        </div>
                     </div>
                     <span class="block text-[11px] text-slate-400 mt-0.5">
-                        {{ __('stocks.preview_estimate_buy') }}
+                        {{ __('stocks.preview_estimate_buy') }} ({{ __('common.accounting') }}: {{ $company->currency }})
                     </span>
                 </div>
 
@@ -168,13 +175,19 @@
             const qtyInput = document.getElementById('quantity');
             const priceInput = document.getElementById('price');
             const previewEl = document.getElementById('preview-amount');
+            const previewUsdEl = document.getElementById('preview-amount-usd');
             const currency = @json($company->currency);
+            const rate = {{ \App\Support\Currency::getRate('TWD', 'USD') ?? '0.03125' }};
 
             function updatePreview() {
                 const qty = parseFloat(qtyInput.value) || 0;
                 const price = parseFloat(priceInput.value) || 0;
                 const total = qty * price;
                 previewEl.textContent = `${currency} ${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                if (previewUsdEl) {
+                    const totalUsd = total * rate;
+                    previewUsdEl.textContent = `≈ US$ ${totalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                }
             }
 
             qtyInput.addEventListener('input', updatePreview);

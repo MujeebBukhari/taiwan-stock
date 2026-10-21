@@ -15,8 +15,24 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="min-h-full font-sans antialiased bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
-        <!-- Guest Language Selector -->
-        <div class="absolute top-4 right-4 z-30">
+        <!-- Guest Currency & Language Selector -->
+        <div class="absolute top-4 right-4 z-30 flex items-center space-x-2">
+            <div class="flex items-center text-xs font-semibold rounded-lg border border-slate-800 bg-slate-900/90 shadow-md p-0.5" role="group" aria-label="Currency Selector">
+                <a href="{{ route('currency.switch', 'TWD') }}"
+                   id="guest-curr-switch-twd"
+                   class="px-2.5 py-1 rounded-md transition-colors {{ \App\Support\Currency::getUserCurrency() === 'TWD' ? 'bg-slate-800 text-emerald-400 font-bold shadow-xs' : 'text-slate-400 hover:text-white' }}"
+                   title="Switch to TWD">
+                    NT$ TWD
+                </a>
+                <span class="text-slate-700 px-0.5 text-[10px]">|</span>
+                <a href="{{ route('currency.switch', 'USD') }}"
+                   id="guest-curr-switch-usd"
+                   class="px-2.5 py-1 rounded-md transition-colors {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 'bg-slate-800 text-emerald-400 font-bold shadow-xs' : 'text-slate-400 hover:text-white' }}"
+                   title="Switch to USD">
+                    US$ USD
+                </a>
+            </div>
+
             <div class="flex items-center text-xs font-semibold rounded-lg border border-slate-800 bg-slate-900/90 shadow-md p-0.5" role="group" aria-label="Language Selector">
                 <a href="{{ route('locale.switch', 'en') }}"
                    id="guest-lang-switch-en"

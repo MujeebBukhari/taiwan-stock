@@ -34,22 +34,23 @@
                 <div>
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.weighted_avg_price') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
-                        {{ $company->currency_symbol }} {{ number_format((float) ($position?->average_price ?? 0), 4) }}
+                        {{ \App\Support\Currency::formatConverted($position?->average_price ?? 0, decimals: 4) }}
                     </span>
                 </div>
                 <div>
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.inventory_amount') }}</span>
                     <span class="text-sm font-bold font-mono text-slate-800 dark:text-slate-200">
-                        {{ $company->currency_symbol }} {{ number_format((float) ($position?->inventory_amount ?? 0), 2) }}
+                        {{ \App\Support\Currency::formatConverted($position?->inventory_amount ?? 0) }}
                     </span>
                 </div>
                 <div>
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('stocks.realized_profit') }}</span>
                     @php
-                        $realizedProfit = (float) ($position?->realized_profit ?? 0);
+                        $isSellProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) ($position?->realized_profit ?? 0), '0');
+                        $isSellProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) ($position?->realized_profit ?? 0), '0');
                     @endphp
-                    <span class="text-sm font-bold font-mono {{ $realizedProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($realizedProfit < 0 ? 'text-red-600 dark:text-red-400' : 'text-slate-800 dark:text-slate-200') }}">
-                        {{ $company->currency_symbol }} {{ number_format($realizedProfit, 2) }}
+                    <span class="text-sm font-bold font-mono {{ $isSellProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isSellProfNeg ? 'text-red-600 dark:text-red-400' : 'text-slate-800 dark:text-slate-200') }}">
+                        {{ \App\Support\Currency::formatConverted($position?->realized_profit ?? 0, showPlusSign: true) }}
                     </span>
                 </div>
             </div>

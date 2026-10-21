@@ -3,6 +3,7 @@
 namespace App\Exports\Sheets;
 
 use App\Models\Company;
+use App\Support\Currency;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithFreezePane;
@@ -39,19 +40,23 @@ class RealizedProfitSheet implements FromArray, ShouldAutoSize, WithFreezePane, 
 
     public function headings(): array
     {
+        $currency = Currency::getUserCurrency();
+
         return [
             'Company',
             'Symbol',
             'Currency',
             'Closed Orders',
-            'Total SELL Revenue',
-            'Total SELL Cost Basis',
-            'Realized Profit / Loss',
+            'Total SELL Revenue ('.$currency.')',
+            'Total SELL Cost Basis ('.$currency.')',
+            'Realized Profit / Loss ('.$currency.')',
         ];
     }
 
     public function array(): array
     {
+        $currency = Currency::getUserCurrency();
+        $isUsd = $currency === Currency::USD;
         $rows = [];
 
         foreach ($this->realizedProfit as $rp) {
@@ -60,9 +65,9 @@ class RealizedProfitSheet implements FromArray, ShouldAutoSize, WithFreezePane, 
                 $rp['company']->symbol,
                 $rp['company']->currency,
                 $rp['sell_transactions_count'],
-                (float) $rp['total_sell_revenue'],
-                (float) $rp['total_sell_cost_basis'],
-                (float) $rp['realized_profit'],
+                $isUsd ? (float) Currency::convertAmount($rp['total_sell_revenue'], Currency::TWD, Currency::USD) : (float) $rp['total_sell_revenue'],
+                $isUsd ? (float) Currency::convertAmount($rp['total_sell_cost_basis'], Currency::TWD, Currency::USD) : (float) $rp['total_sell_cost_basis'],
+                $isUsd ? (float) Currency::convertAmount($rp['realized_profit'], Currency::TWD, Currency::USD) : (float) $rp['realized_profit'],
             ];
         }
 

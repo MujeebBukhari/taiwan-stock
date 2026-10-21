@@ -174,7 +174,7 @@ class DashboardTest extends TestCase
         $this->assertSame('200.00000000', $summary['total_realized_profit']);
 
         $response = $this->actingAs($this->userA)->get(route('dashboard'));
-        $response->assertSee('+200.00');
+        $response->assertSee('+NT$200.00');
     }
 
     /**
@@ -314,7 +314,7 @@ class DashboardTest extends TestCase
 
         $response = $this->actingAs($this->userA)->get(route('dashboard'));
 
-        $response->assertSee('+120.00');
+        $response->assertSee('+NT$120.00');
     }
 
     /**
@@ -435,7 +435,7 @@ class DashboardTest extends TestCase
 
         $response = $this->actingAs($this->userA)->get(route('dashboard'));
         $response->assertSee('Recent Activity');
-        $response->assertSee('+100.00');
+        $response->assertSee('+NT$100.00');
     }
 
     /**

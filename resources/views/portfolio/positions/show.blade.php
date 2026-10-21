@@ -123,7 +123,7 @@
                     {{ __('portfolio.weighted_avg_price') }}
                 </span>
                 <p class="text-2xl font-bold font-mono text-slate-900 dark:text-white mt-2">
-                    {{ $company->currency_symbol }} {{ number_format((float) $position->average_price, 4) }}
+                    {{ \App\Support\Currency::formatConverted($position->average_price, decimals: 4) }}
                 </p>
                 <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.wac_cost_basis_per_share') }}</p>
             </div>
@@ -139,7 +139,7 @@
                     </span>
                 </div>
                 <p class="text-2xl font-bold font-mono text-slate-900 dark:text-white mt-2">
-                    {{ $company->currency_symbol }} {{ number_format((float) $position->inventory_amount, 2) }}
+                    {{ \App\Support\Currency::formatConverted($position->inventory_amount, decimals: 2) }}
                 </p>
                 <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.total_current_acq_cost') }}</p>
             </div>
@@ -150,10 +150,11 @@
                     {{ __('portfolio.realized_profit') }}
                 </span>
                 @php
-                    $realizedProfit = (float) $position->realized_profit;
+                    $isPosProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $position->realized_profit, '0');
+                    $isPosProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $position->realized_profit, '0');
                 @endphp
-                <p class="text-2xl font-bold font-mono mt-2 {{ $realizedProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($realizedProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
-                    {{ $realizedProfit > 0 ? '+' : '' }}{{ $company->currency_symbol }} {{ number_format($realizedProfit, 2) }}
+                <p class="text-2xl font-bold font-mono mt-2 {{ $isPosProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isPosProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
+                    {{ \App\Support\Currency::formatConverted($position->realized_profit, decimals: 2, showPlusSign: true) }}
                 </p>
                 <p class="text-[11px] text-slate-400 mt-1">{{ __('portfolio.cumulative_profit_sales') }}</p>
             </div>
@@ -187,7 +188,7 @@
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_buy_capital') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
-                        {{ $company->currency_symbol }} {{ number_format((float) $transactionSummary['total_buy_amount'], 2) }}
+                        {{ \App\Support\Currency::formatConverted($transactionSummary['total_buy_amount'], decimals: 2) }}
                     </span>
                     <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.gross_purchase_vol') }}</span>
                 </div>
@@ -205,7 +206,7 @@
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_sell_revenue') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
-                        {{ $company->currency_symbol }} {{ number_format((float) $transactionSummary['total_sell_amount'], 2) }}
+                        {{ \App\Support\Currency::formatConverted($transactionSummary['total_sell_amount'], decimals: 2) }}
                     </span>
                     <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.gross_sale_proceeds') }}</span>
                 </div>
@@ -214,7 +215,7 @@
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.total_sold_cost') }}</span>
                     <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
-                        {{ $company->currency_symbol }} {{ number_format((float) $transactionSummary['total_sell_cost'], 2) }}
+                        {{ \App\Support\Currency::formatConverted($transactionSummary['total_sell_cost'], decimals: 2) }}
                     </span>
                     <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.wac_cost_consumed') }}</span>
                 </div>
@@ -223,10 +224,11 @@
                 <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
                     <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('portfolio.closed_trades_pl') }}</span>
                     @php
-                        $closedProfit = (float) $transactionSummary['total_realized_profit'];
+                        $isClosedProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $transactionSummary['total_realized_profit'], '0');
+                        $isClosedProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $transactionSummary['total_realized_profit'], '0');
                     @endphp
-                    <span class="text-base font-bold font-mono mt-1 block {{ $closedProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($closedProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
-                        {{ $closedProfit > 0 ? '+' : '' }}{{ $company->currency_symbol }} {{ number_format($closedProfit, 2) }}
+                    <span class="text-base font-bold font-mono mt-1 block {{ $isClosedProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isClosedProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
+                        {{ \App\Support\Currency::formatConverted($transactionSummary['total_realized_profit'], decimals: 2, showPlusSign: true) }}
                     </span>
                     <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('portfolio.net_realized_profit') }}</span>
                 </div>
@@ -268,16 +270,20 @@
                                     {{ number_format((float) $sellTx->quantity, 4) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-medium">
-                                    {{ $company->currency_symbol }} {{ number_format((float) $sellTx->price, 4) }}
+                                    {{ \App\Support\Currency::formatConverted($sellTx->price, decimals: 4) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-semibold">
-                                    {{ $company->currency_symbol }} {{ number_format((float) $sellTx->amount, 2) }}
+                                    {{ \App\Support\Currency::formatConverted($sellTx->amount, decimals: 2) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-600 dark:text-slate-400">
-                                    {{ $company->currency_symbol }} {{ number_format((float) $sellTx->cost, 2) }}
+                                    {{ \App\Support\Currency::formatConverted($sellTx->cost, decimals: 2) }}
                                 </td>
-                                <td class="py-3 px-4 text-right font-mono font-bold {{ $txProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($txProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
-                                    {{ $txProfit > 0 ? '+' : '' }}{{ $company->currency_symbol }} {{ number_format($txProfit, 2) }}
+                                @php
+                                    $isTxProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $sellTx->realized_profit, '0');
+                                    $isTxProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $sellTx->realized_profit, '0');
+                                @endphp
+                                <td class="py-3 px-4 text-right font-mono font-bold {{ $isTxProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isTxProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
+                                    {{ \App\Support\Currency::formatConverted($sellTx->realized_profit, decimals: 2, showPlusSign: true) }}
                                 </td>
                                 <td class="py-3 px-4 text-slate-500 dark:text-slate-400 max-w-xs truncate">
                                     {{ $sellTx->notes ?? '—' }}
@@ -346,19 +352,20 @@
                                     {{ number_format((float) $transaction->quantity, 4) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-medium">
-                                    {{ number_format((float) $transaction->price, 4) }}
+                                    {{ \App\Support\Currency::formatConverted($transaction->price, decimals: 4) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-semibold">
-                                    {{ number_format((float) $transaction->amount, 2) }}
+                                    {{ \App\Support\Currency::formatConverted($transaction->amount, decimals: 2) }}
                                 </td>
                                 <td class="py-3 px-4 text-right font-mono text-slate-600 dark:text-slate-400">
-                                    {{ number_format((float) $transaction->cost, 2) }}
+                                    {{ \App\Support\Currency::formatConverted($transaction->cost, decimals: 2) }}
                                 </td>
                                 @php
-                                    $ledgerProfit = (float) $transaction->realized_profit;
+                                    $isLedgerProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $transaction->realized_profit, '0');
+                                    $isLedgerProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $transaction->realized_profit, '0');
                                 @endphp
-                                <td class="py-3 px-4 text-right font-mono font-semibold {{ $ledgerProfit > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($ledgerProfit < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
-                                    {{ $ledgerProfit > 0 ? '+' : '' }}{{ number_format($ledgerProfit, 2) }}
+                                <td class="py-3 px-4 text-right font-mono font-semibold {{ $isLedgerProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isLedgerProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
+                                    {{ \App\Support\Currency::formatConverted($transaction->realized_profit, decimals: 2, showPlusSign: true) }}
                                 </td>
                                 <td class="py-3 px-4 text-slate-500 dark:text-slate-400 max-w-xs truncate">
                                     {{ $transaction->notes ?? '—' }}

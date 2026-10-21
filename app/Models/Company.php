@@ -80,16 +80,6 @@ class Company extends Model
     }
 
     /**
-     * Determine if this company is traded on a Vietnamese exchange.
-     *
-     * @deprecated Use isTaiwanese() for Taiwan market.
-     */
-    public function isVietnamese(): bool
-    {
-        return in_array(strtoupper($this->exchange), ['HOSE', 'HNX', 'UPCOM'], true);
-    }
-
-    /**
      * Scope a query to only include active companies.
      */
     public function scopeActive(Builder $query): Builder

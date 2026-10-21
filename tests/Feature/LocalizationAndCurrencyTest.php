@@ -355,18 +355,6 @@ class LocalizationAndCurrencyTest extends TestCase
                     ],
                 ],
             ], 200),
-            'https://apipubaws.tcbs.com.vn/*' => Http::response([
-                [
-                    'ticker' => '2330',
-                    'price' => 980,
-                    'cp' => 970,
-                    'ch' => 10,
-                    'ra' => 1.03,
-                    'vo' => 25000000,
-                    'companyName' => 'TSMC',
-                    'exchange' => 'TWSE',
-                ],
-            ], 200),
         ]);
 
         $company = Company::factory()->create([

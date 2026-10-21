@@ -41,41 +41,41 @@ class MarketDataServiceTest extends TestCase
         $mockProvider = Mockery::mock(MarketDataProviderInterface::class);
         $mockProvider->shouldReceive('getQuote')
             ->once()
-            ->with('FPT', 'HOSE')
+            ->with('2330', 'TWSE')
             ->andReturn(new MarketQuote(
-                symbol: 'FPT',
-                exchange: 'HOSE',
-                price: '128500.00',
-                name: 'FPT Corporation',
-                previousClose: '126000.00',
-                change: '2500.00',
-                changePercent: '1.98',
-                volume: '4500000',
+                symbol: '2330',
+                exchange: 'TWSE',
+                price: '980.00',
+                name: 'TSMC',
+                previousClose: '970.00',
+                change: '10.00',
+                changePercent: '1.03',
+                volume: '25000000',
                 timestamp: Carbon::now(),
-                currency: 'VND'
+                currency: 'TWD'
             ));
 
         $service = new MarketDataService($mockProvider);
 
         $company = new Company([
-            'symbol' => 'FPT',
-            'name' => 'FPT Corporation',
-            'exchange' => 'HOSE',
-            'currency' => 'VND',
+            'symbol' => '2330',
+            'name' => 'TSMC',
+            'exchange' => 'TWSE',
+            'currency' => 'TWD',
         ]);
 
         $quote = $service->getQuote($company);
 
         $this->assertNotNull($quote);
-        $this->assertSame('FPT', $quote->symbol);
-        $this->assertSame('HOSE', $quote->exchange);
-        $this->assertSame('128500.00', $quote->price);
-        $this->assertSame('2500.00', $quote->change);
-        $this->assertSame('1.98', $quote->changePercent);
-        $this->assertSame('4500000', $quote->volume);
+        $this->assertSame('2330', $quote->symbol);
+        $this->assertSame('TWSE', $quote->exchange);
+        $this->assertSame('980.00', $quote->price);
+        $this->assertSame('10.00', $quote->change);
+        $this->assertSame('1.03', $quote->changePercent);
+        $this->assertSame('25000000', $quote->volume);
         $this->assertTrue($quote->isPositiveChange());
-        $this->assertSame('+₫2,500', $quote->formattedChange());
-        $this->assertSame('+1.98%', $quote->formattedChangePercent());
+        $this->assertSame('+NT$10', $quote->formattedChange());
+        $this->assertSame('+1.03%', $quote->formattedChangePercent());
     }
 
     public function test_market_data_service_uses_cache_and_avoids_provider_call(): void
@@ -84,25 +84,25 @@ class MarketDataServiceTest extends TestCase
         // Provider should only be called once
         $mockProvider->shouldReceive('getQuote')
             ->once()
-            ->with('VNM', null)
+            ->with('2317', null)
             ->andReturn(new MarketQuote(
-                symbol: 'VNM',
-                exchange: 'HOSE',
-                price: '68200.00',
-                currency: 'VND'
+                symbol: '2317',
+                exchange: 'TWSE',
+                price: '185.00',
+                currency: 'TWD'
             ));
 
         $service = new MarketDataService($mockProvider);
 
         // First call populates cache
-        $quote1 = $service->getQuote('VNM');
+        $quote1 = $service->getQuote('2317');
         $this->assertNotNull($quote1);
-        $this->assertSame('68200.00', $quote1->price);
+        $this->assertSame('185.00', $quote1->price);
 
         // Second call retrieves from cache without hitting provider
-        $quote2 = $service->getQuote('VNM');
+        $quote2 = $service->getQuote('2317');
         $this->assertNotNull($quote2);
-        $this->assertSame('68200.00', $quote2->price);
+        $this->assertSame('185.00', $quote2->price);
     }
 
     public function test_provider_failure_is_handled_gracefully_without_exception(): void
@@ -125,25 +125,25 @@ class MarketDataServiceTest extends TestCase
         $mockProvider = Mockery::mock(MarketDataProviderInterface::class);
         $mockProvider->shouldReceive('getQuote')
             ->once()
-            ->with('HPG', null)
+            ->with('2454', null)
             ->andReturn(null); // Provider fails
 
         // Seed fallback cache
-        Cache::put('market_quote_fallback:HPG', [
-            'symbol' => 'HPG',
-            'exchange' => 'HOSE',
-            'price' => '28400.00',
-            'name' => 'Hoa Phat Group',
-            'currency' => 'VND',
+        Cache::put('market_quote_fallback:2454', [
+            'symbol' => '2454',
+            'exchange' => 'TWSE',
+            'price' => '1250.00',
+            'name' => 'MediaTek Inc.',
+            'currency' => 'TWD',
         ], 86400);
 
         $service = new MarketDataService($mockProvider);
 
-        $quote = $service->getQuote('HPG');
+        $quote = $service->getQuote('2454');
 
         $this->assertNotNull($quote);
-        $this->assertSame('HPG', $quote->symbol);
-        $this->assertSame('28400.00', $quote->price);
+        $this->assertSame('2454', $quote->symbol);
+        $this->assertSame('1250.00', $quote->price);
     }
 
     public function test_market_value_and_unrealized_profit_calculations(): void
@@ -151,16 +151,16 @@ class MarketDataServiceTest extends TestCase
         $mockProvider = Mockery::mock(MarketDataProviderInterface::class);
         $service = new MarketDataService($mockProvider);
 
-        // 100 shares @ 125,000 VND = 12,500,000.00 VND
-        $marketValue = $service->calculateMarketValue('100.0000', '125000.0000');
-        $this->assertSame('12500000.00', $marketValue);
+        // 100 shares @ 980 TWD = 98,000.00 TWD
+        $marketValue = $service->calculateMarketValue('100.0000', '980.0000');
+        $this->assertSame('98000.00', $marketValue);
 
-        // Market Value 12,500,000 - Inventory Cost 10,000,000 = +2,500,000.00
-        $unrealizedProfit = $service->calculateUnrealizedProfit('100.0000', '125000.0000', '10000000.00');
-        $this->assertSame('2500000.00', $unrealizedProfit);
+        // Market Value 98,000 - Inventory Cost 80,000 = +18,000.00
+        $unrealizedProfit = $service->calculateUnrealizedProfit('100.0000', '980.0000', '80000.00');
+        $this->assertSame('18000.00', $unrealizedProfit);
 
-        // Percentage: (2,500,000 / 10,000,000) * 100 = 25.00%
-        $percent = $service->calculateUnrealizedProfitPercent($unrealizedProfit, '10000000.00');
-        $this->assertSame('25.00', $percent);
+        // Percentage: (18,000 / 80,000) * 100 = 22.50%
+        $percent = $service->calculateUnrealizedProfitPercent($unrealizedProfit, '80000.00');
+        $this->assertSame('22.50', $percent);
     }
 }

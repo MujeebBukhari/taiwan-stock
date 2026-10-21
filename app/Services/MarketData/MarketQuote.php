@@ -82,7 +82,7 @@ class MarketQuote
         $absAmount = abs($changeFloat);
 
         $symbol = Currency::symbol($this->currency);
-        $decimals = in_array(strtoupper($this->currency), ['TWD', 'NTD', 'VND'], true) ? 0 : 2;
+        $decimals = in_array(strtoupper($this->currency), ['TWD', 'NTD'], true) ? 0 : 2;
 
         return $sign.$symbol.number_format($absAmount, $decimals);
     }

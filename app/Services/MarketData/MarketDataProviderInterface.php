@@ -17,8 +17,8 @@ interface MarketDataProviderInterface
     /**
      * Retrieve the current normalized quote for a stock symbol.
      *
-     * @param  string  $symbol  Stock ticker symbol (e.g. FPT, VNM, HPG)
-     * @param  string|null  $exchange  Exchange code (e.g. HOSE, HNX, UPCOM)
+     * @param  string  $symbol  Stock ticker symbol (e.g. 2330, 2317, 2454)
+     * @param  string|null  $exchange  Exchange code (e.g. TWSE, TPEx)
      * @return MarketQuote|null Returns null if quote is unavailable or request fails
      */
     public function getQuote(string $symbol, ?string $exchange = null): ?MarketQuote;

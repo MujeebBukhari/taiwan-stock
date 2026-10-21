@@ -182,4 +182,36 @@ class TaiwanMarketDataTest extends TestCase
         $response->assertSee('NT$');
         $response->assertSee('TWSE');
     }
+
+    public function test_no_external_api_calls_made_when_cached_quote_exists(): void
+    {
+        Http::fake([
+            'https://mis.twse.com.tw/*' => Http::response([
+                'msgArray' => [
+                    [
+                        'c' => '2330',
+                        'z' => '980.00',
+                        'y' => '970.00',
+                        'change' => '10.00',
+                        'change_percent' => '1.03',
+                        'v' => '25000000',
+                        'n' => 'TSMC',
+                        'ex' => 'tse',
+                    ],
+                ],
+            ], 200),
+        ]);
+
+        $service = app(MarketDataService::class);
+
+        // First call - triggers 1 HTTP request
+        $quote1 = $service->getQuote('2330', 'TWSE');
+        $this->assertNotNull($quote1);
+        Http::assertSentCount(1);
+
+        // Second call - served from cache, zero additional HTTP requests
+        $quote2 = $service->getQuote('2330', 'TWSE');
+        $this->assertNotNull($quote2);
+        Http::assertSentCount(1);
+    }
 }

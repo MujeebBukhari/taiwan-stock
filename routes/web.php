@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PortfolioController;
@@ -17,6 +18,9 @@ Route::get('/', function () {
 
 Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 Route::post('/locale', [LocaleController::class, 'switch'])->name('locale.update');
+
+Route::get('/currency/{currency}', [CurrencyController::class, 'switch'])->name('currency.switch');
+Route::post('/currency', [CurrencyController::class, 'switch'])->name('currency.update');
 
 Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

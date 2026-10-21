@@ -2,6 +2,7 @@
 
 namespace App\Exports\Sheets;
 
+use App\Support\Currency;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithFreezePane;
@@ -41,20 +42,24 @@ class AnnualActivitySheet implements FromArray, ShouldAutoSize, WithFreezePane, 
 
     public function headings(): array
     {
+        $currency = Currency::getUserCurrency();
+
         return [
             'Year',
             'BUY Transactions',
             'SELL Transactions',
             'BUY Quantity',
             'SELL Quantity',
-            'BUY Amount',
-            'SELL Amount',
-            'Realized Profit',
+            'BUY Amount ('.$currency.')',
+            'SELL Amount ('.$currency.')',
+            'Realized Profit ('.$currency.')',
         ];
     }
 
     public function array(): array
     {
+        $currency = Currency::getUserCurrency();
+        $isUsd = $currency === Currency::USD;
         $rows = [];
 
         foreach ($this->annual as $yr) {
@@ -64,9 +69,9 @@ class AnnualActivitySheet implements FromArray, ShouldAutoSize, WithFreezePane, 
                 $yr['sell_transactions_count'],
                 (float) $yr['total_buy_quantity'],
                 (float) $yr['total_sell_quantity'],
-                (float) $yr['total_buy_amount'],
-                (float) $yr['total_sell_amount'],
-                (float) $yr['total_realized_profit'],
+                $isUsd ? (float) Currency::convertAmount($yr['total_buy_amount'], Currency::TWD, Currency::USD) : (float) $yr['total_buy_amount'],
+                $isUsd ? (float) Currency::convertAmount($yr['total_sell_amount'], Currency::TWD, Currency::USD) : (float) $yr['total_sell_amount'],
+                $isUsd ? (float) Currency::convertAmount($yr['total_realized_profit'], Currency::TWD, Currency::USD) : (float) $yr['total_realized_profit'],
             ];
         }
 

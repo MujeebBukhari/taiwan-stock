@@ -46,4 +46,10 @@ return [
     'prev_close' => '昨收',
     'volume' => '成交量',
     'last_updated' => '最後更新',
+    'currency' => '幣別',
+    'currency_selector' => '幣別選擇器',
+    'currency_twd' => 'NT$ 新臺幣',
+    'currency_usd' => 'US$ 美元',
+    'currency_rate_note' => '顯示幣別：美元（依參考匯率 1 TWD = :rate USD 換算估計僅供參考，底層會計帳目均維持新臺幣計價）',
+    'currency_rate_unavailable' => '匯率無法取得，以記帳原始幣別（:currency）顯示。',
 ];

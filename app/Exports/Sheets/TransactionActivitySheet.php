@@ -2,6 +2,7 @@
 
 namespace App\Exports\Sheets;
 
+use App\Support\Currency;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithFreezePane;
@@ -50,16 +51,36 @@ class TransactionActivitySheet implements FromArray, ShouldAutoSize, WithFreezeP
 
     public function array(): array
     {
+        $currency = Currency::getUserCurrency();
+        $isUsd = $currency === Currency::USD;
+
+        $buyAmount = $isUsd
+            ? (float) Currency::convertAmount($this->activity['total_buy_amount'], Currency::TWD, Currency::USD)
+            : (float) $this->activity['total_buy_amount'];
+
+        $sellAmount = $isUsd
+            ? (float) Currency::convertAmount($this->activity['total_sell_amount'], Currency::TWD, Currency::USD)
+            : (float) $this->activity['total_sell_amount'];
+
+        $sellCost = $isUsd
+            ? (float) Currency::convertAmount($this->activity['total_sell_cost'], Currency::TWD, Currency::USD)
+            : (float) $this->activity['total_sell_cost'];
+
+        $profit = $isUsd
+            ? (float) Currency::convertAmount($this->activity['total_realized_profit'], Currency::TWD, Currency::USD)
+            : (float) $this->activity['total_realized_profit'];
+
         return [
             ['Total BUY Transactions', $this->activity['total_buy_transactions']],
             ['Total SELL Transactions', $this->activity['total_sell_transactions']],
             ['Total Transactions', $this->activity['total_transactions']],
             ['Total BUY Quantity', (float) $this->activity['total_buy_quantity']],
             ['Total SELL Quantity', (float) $this->activity['total_sell_quantity']],
-            ['Total BUY Amount', (float) $this->activity['total_buy_amount']],
-            ['Total SELL Amount', (float) $this->activity['total_sell_amount']],
-            ['Total SELL Cost Basis', (float) $this->activity['total_sell_cost']],
-            ['Total Realized Profit / Loss', (float) $this->activity['total_realized_profit']],
+            ['Total BUY Amount', $buyAmount],
+            ['Total SELL Amount', $sellAmount],
+            ['Total SELL Cost Basis', $sellCost],
+            ['Total Realized Profit / Loss', $profit],
+            ['Display Currency', $currency],
         ];
     }
 

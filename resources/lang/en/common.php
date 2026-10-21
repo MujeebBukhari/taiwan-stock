@@ -46,4 +46,10 @@ return [
     'prev_close' => 'Prev Close',
     'volume' => 'Volume',
     'last_updated' => 'Last Updated',
+    'currency' => 'Currency',
+    'currency_selector' => 'Currency Selector',
+    'currency_twd' => 'NT$ TWD',
+    'currency_usd' => 'US$ USD',
+    'currency_rate_note' => 'Display Currency: USD (Estimated reference rate Converted from TWD at 1 TWD = :rate USD; underlying accounting records remain in TWD)',
+    'currency_rate_unavailable' => 'Exchange rate unavailable. Values displayed in accounting currency (:currency).',
 ];

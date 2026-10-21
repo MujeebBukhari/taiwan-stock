@@ -30,8 +30,20 @@
                 </div>
             </div>
 
-            <!-- Language Selector & Settings Dropdown -->
+            <!-- Currency Selector & Language Selector & Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-3">
+                <div class="flex items-center text-xs font-semibold rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-0.5" role="group" aria-label="Currency Selector">
+                    <a href="{{ route('currency.switch', 'TWD') }}"
+                       class="px-2 py-0.5 rounded transition-colors {{ \App\Support\Currency::getUserCurrency() === 'TWD' ? 'bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
+                        NT$ TWD
+                    </a>
+                    <span class="text-gray-300 dark:text-gray-600 text-[10px]">|</span>
+                    <a href="{{ route('currency.switch', 'USD') }}"
+                       class="px-2 py-0.5 rounded transition-colors {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 'bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
+                        US$ USD
+                    </a>
+                </div>
+
                 <div class="flex items-center text-xs font-semibold rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-0.5" role="group" aria-label="Language Selector">
                     <a href="{{ route('locale.switch', 'en') }}"
                        class="px-2 py-0.5 rounded transition-colors {{ app()->getLocale() === 'en' ? 'bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
@@ -60,6 +72,19 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('navigation.profile') }}
+                        </x-dropdown-link>
+
+                        <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
+
+                        <!-- Currency Switching -->
+                        <div class="px-4 py-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                            {{ __('common.currency') }}
+                        </div>
+                        <x-dropdown-link :href="route('currency.switch', 'TWD')" class="{{ \App\Support\Currency::getUserCurrency() === 'TWD' ? 'font-bold text-emerald-600 dark:text-emerald-400' : '' }}">
+                            NT$ TWD {{ \App\Support\Currency::getUserCurrency() === 'TWD' ? '✓' : '' }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('currency.switch', 'USD')" class="{{ \App\Support\Currency::getUserCurrency() === 'USD' ? 'font-bold text-emerald-600 dark:text-emerald-400' : '' }}">
+                            US$ USD {{ \App\Support\Currency::getUserCurrency() === 'USD' ? '✓' : '' }}
                         </x-dropdown-link>
 
                         <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
@@ -133,6 +158,16 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('navigation.profile') }}
+                </x-responsive-nav-link>
+
+                <div class="px-4 py-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                    {{ __('common.currency') }}
+                </div>
+                <x-responsive-nav-link :href="route('currency.switch', 'TWD')">
+                    NT$ TWD {{ \App\Support\Currency::getUserCurrency() === 'TWD' ? '✓' : '' }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('currency.switch', 'USD')">
+                    US$ USD {{ \App\Support\Currency::getUserCurrency() === 'USD' ? '✓' : '' }}
                 </x-responsive-nav-link>
 
                 <div class="px-4 py-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">

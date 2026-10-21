@@ -164,7 +164,7 @@
                 <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.realized_pl') }}</span>
                 @php $totProf = (float) $summaryMetrics['total_realized_profit']; @endphp
                 <span class="text-xl font-bold font-mono mt-1 block {{ $totProf > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($totProf < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
-                    {{ $totProf > 0 ? '+' : '' }}{{ number_format($totProf, 2) }}
+                    {{ \App\Support\Currency::formatConverted($summaryMetrics['total_realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                 </span>
                 <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.closed_positions_pl') }}</span>
             </div>
@@ -172,7 +172,7 @@
             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
                 <span class="block text-[11px] font-semibold uppercase text-slate-400">{{ __('analytics.inventory_cost_basis') }}</span>
                 <span class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-1 block">
-                    {{ number_format((float) $summaryMetrics['total_inventory_cost'], 2) }}
+                    {{ \App\Support\Currency::formatConverted($summaryMetrics['total_inventory_cost']) }}
                 </span>
                 <span class="text-[10px] text-slate-400 block mt-0.5">{{ __('analytics.active_acquisition_cost') }}</span>
             </div>
@@ -296,10 +296,10 @@
                                         <td class="py-1.5 font-bold font-mono">{{ $cItem['symbol'] }}</td>
                                         <td class="py-1.5 text-slate-600 dark:text-slate-300 truncate max-w-xs">{{ $cItem['company_name'] }}</td>
                                         <td class="py-1.5 text-center font-mono">{{ $cItem['sell_transactions_count'] }}</td>
-                                        <td class="py-1.5 text-right font-mono">{{ number_format((float) $cItem['total_sell_revenue'], 2) }}</td>
-                                        <td class="py-1.5 text-right font-mono">{{ number_format((float) $cItem['total_sell_cost_basis'], 2) }}</td>
+                                        <td class="py-1.5 text-right font-mono">{{ \App\Support\Currency::formatConverted($cItem['total_sell_revenue']) }}</td>
+                                        <td class="py-1.5 text-right font-mono">{{ \App\Support\Currency::formatConverted($cItem['total_sell_cost_basis']) }}</td>
                                         <td class="py-1.5 text-right font-mono font-bold {{ $cProf > 0 ? 'text-emerald-600 dark:text-emerald-400' : ($cProf < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500') }}">
-                                            {{ $cProf > 0 ? '+' : '' }}{{ number_format($cProf, 2) }}
+                                            {{ \App\Support\Currency::formatConverted($cItem['realized_profit'], \App\Support\Currency::TWD, null, null, true) }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -319,7 +319,7 @@
                         </p>
                     </div>
                     <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
-                        {{ __('common.total') }}: {{ number_format((float) $costBasisDistribution['total_cost_basis'], 2) }}
+                        {{ __('common.total') }}: {{ \App\Support\Currency::format($costBasisDistribution['total_cost_basis']) }}
                     </span>
                 </div>
 
@@ -356,9 +356,9 @@
                                         <td class="py-1.5 font-bold font-mono">{{ $posItem['symbol'] }}</td>
                                         <td class="py-1.5 text-slate-600 dark:text-slate-300 truncate max-w-xs">{{ $posItem['company_name'] }}</td>
                                         <td class="py-1.5 text-right font-mono">{{ number_format((float) $posItem['quantity'], 4) }}</td>
-                                        <td class="py-1.5 text-right font-mono">{{ number_format((float) $posItem['average_price'], 2) }}</td>
+                                        <td class="py-1.5 text-right font-mono">{{ \App\Support\Currency::formatConverted($posItem['average_price']) }}</td>
                                         <td class="py-1.5 text-right font-mono font-bold text-slate-900 dark:text-white">
-                                            {{ number_format((float) $posItem['inventory_amount'], 2) }}
+                                            {{ \App\Support\Currency::formatConverted($posItem['inventory_amount']) }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -501,7 +501,8 @@
                                 callbacks: {
                                     label: function(context) {
                                         const val = context.parsed.y;
-                                        return (val >= 0 ? '+' : '') + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        const sym = '{{ \App\Support\Currency::symbol() }}';
+                                        return (val < 0 ? '-' + sym : (val > 0 ? '+' + sym : sym)) + Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 2 : 0 }}, maximumFractionDigits: {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 2 : 0 }} });
                                     }
                                 }
                             }
@@ -545,7 +546,8 @@
                                 callbacks: {
                                     label: function(context) {
                                         const val = context.parsed.y;
-                                        return (val >= 0 ? '+' : '') + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        const sym = '{{ \App\Support\Currency::symbol() }}';
+                                        return (val < 0 ? '-' + sym : (val > 0 ? '+' + sym : sym)) + Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 2 : 0 }}, maximumFractionDigits: {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 2 : 0 }} });
                                     }
                                 }
                             }
@@ -592,7 +594,8 @@
                                 callbacks: {
                                     label: function(context) {
                                         const val = context.parsed;
-                                        return context.label + ': ' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        const sym = '{{ \App\Support\Currency::symbol() }}';
+                                        return context.label + ': ' + sym + val.toLocaleString('en-US', { minimumFractionDigits: {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 2 : 0 }}, maximumFractionDigits: {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 2 : 0 }} });
                                     }
                                 }
                             }

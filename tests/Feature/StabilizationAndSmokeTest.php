@@ -166,7 +166,7 @@ class StabilizationAndSmokeTest extends TestCase
         $portfolioResponse = $this->actingAs($this->userA)->get(route('portfolio.index'));
         $portfolioResponse->assertOk();
         $portfolioResponse->assertSee('19,200.00'); // Total Inventory Cost
-        $portfolioResponse->assertSee('+1,200.00'); // Realized Profit
+        $portfolioResponse->assertSee('1,200.00'); // Realized Profit
         $portfolioResponse->assertSee('120.0000'); // Remaining Qty
 
         // 14. Open Position Detail Page
@@ -174,7 +174,7 @@ class StabilizationAndSmokeTest extends TestCase
         $positionDetailResponse->assertOk();
         $positionDetailResponse->assertSee('Apple Inc.');
         $positionDetailResponse->assertSee('160.0000'); // WAC
-        $positionDetailResponse->assertSee('+1,200.00'); // Realized Profit
+        $positionDetailResponse->assertSee('1,200.00'); // Realized Profit
         $positionDetailResponse->assertSee('First partial profit exit');
 
         // 15. Open Reports Page
@@ -202,7 +202,7 @@ class StabilizationAndSmokeTest extends TestCase
         $dashboardUpdated = $this->actingAs($this->userA)->get(route('dashboard'));
         $dashboardUpdated->assertOk();
         $dashboardUpdated->assertSee('19,200.00');
-        $dashboardUpdated->assertSee('+1,200.00');
+        $dashboardUpdated->assertSee('1,200.00');
         $dashboardUpdated->assertSee('120.0000');
         $dashboardUpdated->assertSee('AAPL');
 

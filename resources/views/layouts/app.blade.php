@@ -112,6 +112,14 @@
                         {{ auth()->user()->role ?? 'USER' }}
                     </span>
                 </div>
+                <div class="pt-2 flex items-center justify-between border-t border-slate-800/80 text-[11px]">
+                    <span class="text-slate-400">{{ __('common.currency') }}:</span>
+                    <div class="flex items-center gap-1 font-mono font-semibold">
+                        <a href="{{ route('currency.switch', 'TWD') }}" class="{{ \App\Support\Currency::getUserCurrency() === 'TWD' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-white' }}">NT$ TWD</a>
+                        <span class="text-slate-600">|</span>
+                        <a href="{{ route('currency.switch', 'USD') }}" class="{{ \App\Support\Currency::getUserCurrency() === 'USD' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-white' }}">US$ USD</a>
+                    </div>
+                </div>
             </div>
         </aside>
 
@@ -132,6 +140,23 @@
                 </div>
 
                 <div class="flex items-center gap-3 sm:gap-4">
+                    <!-- Currency Selector -->
+                    <div class="flex items-center text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 p-0.5" role="group" aria-label="{{ __('common.currency_selector') }}">
+                        <a href="{{ route('currency.switch', 'TWD') }}"
+                           id="currency-switch-twd"
+                           class="px-2.5 py-1 rounded-md transition-colors {{ \App\Support\Currency::getUserCurrency() === 'TWD' ? 'bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' }}"
+                           title="Switch to NT$ TWD">
+                            NT$ TWD
+                        </a>
+                        <span class="text-slate-300 dark:text-slate-600 text-[10px]">|</span>
+                        <a href="{{ route('currency.switch', 'USD') }}"
+                           id="currency-switch-usd"
+                           class="px-2.5 py-1 rounded-md transition-colors {{ \App\Support\Currency::getUserCurrency() === 'USD' ? 'bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' }}"
+                           title="Switch to US$ USD">
+                            US$ USD
+                        </a>
+                    </div>
+
                     <!-- Language Selector -->
                     <div class="flex items-center text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 p-0.5" role="group" aria-label="Language Selector">
                         <a href="{{ route('locale.switch', 'en') }}"
