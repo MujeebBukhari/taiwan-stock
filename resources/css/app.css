@@ -2,6 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        --color-fintech-navy: #0B1528;
+        --color-fintech-blue: #2563EB;
+        --color-fintech-bg: #F1F5F9;
+        --color-fintech-card: #FFFFFF;
+        --color-fintech-text: #0F172A;
+        --color-fintech-muted: #64748B;
+        --color-fintech-border: #E2E8F0;
+        --color-fintech-emerald: #059669;
+        --color-fintech-rose: #E11D48;
+    }
+
+    body {
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
 [x-cloak] {
     display: none !important;
+}
+
+/* Tabular figures for financial and numeric data */
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Fintech custom scrollbar */
+.fintech-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+.fintech-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.fintech-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.25);
+    border-radius: 9999px;
+}
+.fintech-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 116, 139, 0.45);
+}
+
+/* Reduced motion preference respect */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

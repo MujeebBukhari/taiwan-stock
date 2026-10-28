@@ -1,27 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        Reports &bull; Portfolio Accounting & Analytics
+        {{ __('reports.title') }} &bull; Portfolio Accounting & Analytics
     </x-slot>
 
     <div class="space-y-6">
         <!-- Reports Banner & Filter Panel -->
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-xs p-5 sm:p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-slate-700/80">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">{{ __('reports.historical_reports') }}</h2>
+                    <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{{ __('reports.historical_reports') }}</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         {{ __('reports.historical_reports_desc') }}
                     </p>
                 </div>
 
-                <div class="flex items-center gap-2">
-                    <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
+                <div class="flex items-center gap-2.5">
+                    <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                         {{ __('reports.accounting_mode_wac') }} &bull; {{ \App\Support\Currency::symbol() }} {{ \App\Support\Currency::getUserCurrency() }}
                     </span>
 
                     <!-- Export Buttons (preserves all active filters) -->
                     <a href="{{ route('reports.export.excel', request()->query()) }}"
-                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-300 dark:border-emerald-700/60 transition-colors shadow-xs"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-300/80 dark:border-emerald-800 transition-colors shadow-xs"
                        title="Download full multi-sheet Excel spreadsheet">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -30,7 +30,7 @@
                     </a>
 
                     <a href="{{ route('reports.export.pdf', request()->query()) }}"
-                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-300 dark:border-rose-700/60 transition-colors shadow-xs"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-300/80 dark:border-rose-800 transition-colors shadow-xs"
                        title="Download printable landscape PDF document">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -41,7 +41,7 @@
             </div>
 
             @if ($errors->any())
-                <div class="mt-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-xs text-red-700 dark:text-red-300">
+                <div class="mt-4 p-4 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300">
                     <p class="font-bold mb-1">Filter Validation Error:</p>
                     <ul class="list-disc list-inside space-y-0.5">
                         @foreach ($errors->all() as $error)
@@ -55,37 +55,37 @@
             <form method="GET" action="{{ route('reports.index') }}" class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
                 <!-- Date From -->
                 <div>
-                    <label for="date_from" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        From Date
+                    <label for="date_from" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {{ __('reports.from_date') }}
                     </label>
                     <input type="date"
                            id="date_from"
                            name="date_from"
                            value="{{ $filters['date_from'] ?? '' }}"
-                           class="w-full px-3 py-1.5 text-xs font-mono rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                           class="w-full px-3 py-1.5 text-xs font-mono rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
                 </div>
 
                 <!-- Date To -->
                 <div>
-                    <label for="date_to" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        To Date
+                    <label for="date_to" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {{ __('reports.to_date') }}
                     </label>
                     <input type="date"
                            id="date_to"
                            name="date_to"
                            value="{{ $filters['date_to'] ?? '' }}"
-                           class="w-full px-3 py-1.5 text-xs font-mono rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                           class="w-full px-3 py-1.5 text-xs font-mono rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
                 </div>
 
                 <!-- Company Dropdown -->
                 <div>
-                    <label for="company_id" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Company
+                    <label for="company_id" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {{ __('reports.company') }}
                     </label>
                     <select id="company_id"
                             name="company_id"
-                            class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                        <option value="">All Companies</option>
+                            class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <option value="">{{ __('reports.all_companies') }}</option>
                         @foreach ($filterOptions['companies'] as $comp)
                             <option value="{{ $comp->id }}" {{ ($filters['company_id'] ?? '') == $comp->id ? 'selected' : '' }}>
                                 {{ $comp->symbol }} - {{ $comp->name }}
@@ -96,13 +96,13 @@
 
                 <!-- Exchange Dropdown -->
                 <div>
-                    <label for="exchange" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Exchange
+                    <label for="exchange" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {{ __('reports.exchange') }}
                     </label>
                     <select id="exchange"
                             name="exchange"
-                            class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                        <option value="">All Exchanges</option>
+                            class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <option value="">{{ __('reports.all_exchanges') }}</option>
                         @foreach ($filterOptions['exchanges'] as $exchangeOption)
                             <option value="{{ $exchangeOption }}" {{ ($filters['exchange'] ?? '') === $exchangeOption ? 'selected' : '' }}>
                                 {{ $exchangeOption }}
@@ -113,13 +113,13 @@
 
                 <!-- Sector Dropdown -->
                 <div>
-                    <label for="sector" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Sector
+                    <label for="sector" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {{ __('reports.sector') }}
                     </label>
                     <select id="sector"
                             name="sector"
-                            class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                        <option value="">All Sectors</option>
+                            class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <option value="">{{ __('reports.all_sectors') }}</option>
                         @foreach ($filterOptions['sectors'] as $sectorOption)
                             <option value="{{ $sectorOption }}" {{ ($filters['sector'] ?? '') === $sectorOption ? 'selected' : '' }}>
                                 {{ $sectorOption }}
@@ -130,27 +130,27 @@
 
                 <!-- Transaction Type & Submit Button -->
                 <div>
-                    <label for="type" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                        Tx Type
+                    <label for="type" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                        {{ __('reports.transaction_type') }}
                     </label>
-                    <div class="flex items-center gap-1.5">
+                    <div class="flex items-center gap-2">
                         <select id="type"
                                 name="type"
-                                class="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                            <option value="all" {{ ($filters['type'] ?? 'all') === 'all' ? 'selected' : '' }}>All Types</option>
-                            <option value="BUY" {{ strtoupper($filters['type'] ?? '') === 'BUY' ? 'selected' : '' }}>BUY Only</option>
-                            <option value="SELL" {{ strtoupper($filters['type'] ?? '') === 'SELL' ? 'selected' : '' }}>SELL Only</option>
+                                class="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            <option value="all" {{ ($filters['type'] ?? 'all') === 'all' ? 'selected' : '' }}>{{ __('reports.all_types') }}</option>
+                            <option value="BUY" {{ strtoupper($filters['type'] ?? '') === 'BUY' ? 'selected' : '' }}>{{ __('reports.buy_only') }}</option>
+                            <option value="SELL" {{ strtoupper($filters['type'] ?? '') === 'SELL' ? 'selected' : '' }}>{{ __('reports.sell_only') }}</option>
                         </select>
 
                         <button type="submit"
-                                class="px-3 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors">
-                            Apply
+                                class="px-3.5 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
+                            {{ __('reports.apply_filters') }}
                         </button>
 
                         @if (!empty($filters['date_from']) || !empty($filters['date_to']) || !empty($filters['company_id']) || !empty($filters['exchange']) || !empty($filters['sector']) || (($filters['type'] ?? 'all') !== 'all'))
                             <a href="{{ route('reports.index') }}"
-                               title="Reset Filters"
-                               class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                               title="{{ __('reports.reset_filters') }}"
+                               class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/60 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -162,144 +162,144 @@
         </div>
 
         <!-- 1. Portfolio Summary Report -->
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-            <div class="pb-4 mb-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-xs p-5 sm:p-6">
+            <div class="pb-4 mb-5 border-b border-slate-200/80 dark:border-slate-700/80">
                 <h3 class="text-base font-bold text-slate-900 dark:text-white">1. {{ __('reports.current_portfolio_status') }}</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                     {{ __('reports.current_portfolio_desc') }}
                     @if(\App\Support\Currency::getUserCurrency() !== \App\Support\Currency::TWD)
-                        <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-sans block sm:inline">({{ __('common.currency_rate_note', ['rate' => \App\Support\Currency::getRate(\App\Support\Currency::TWD, \App\Support\Currency::getUserCurrency()) ?? 'N/A', 'currency' => \App\Support\Currency::getUserCurrency()]) }})</span>
+                        <span class="text-[11px] text-blue-600 dark:text-blue-400 font-sans block sm:inline">{{ __('common.currency_rate_note', ['rate' => \App\Support\Currency::getRate(\App\Support\Currency::TWD, \App\Support\Currency::getUserCurrency()) ?? 'N/A', 'currency' => \App\Support\Currency::getUserCurrency()]) }}</span>
                     @endif
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
                 <!-- Total Inventory Cost Basis -->
-                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Inventory Cost Basis</span>
-                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-4 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ __('reports.inventory_cost_basis') }}</span>
+                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ \App\Support\Currency::formatConverted($portfolioSummary['total_inventory_cost'], decimals: 2) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Total acquisition cost</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">Total acquisition cost</span>
                 </div>
 
                 <!-- Total Quantity -->
-                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total Quantity</span>
-                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-4 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Quantity</span>
+                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ number_format((float) $portfolioSummary['total_quantity'], 4) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Shares in inventory</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">Shares in inventory</span>
                 </div>
 
                 <!-- Active Positions -->
-                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Active Positions</span>
-                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-4 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Active Positions</span>
+                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ $portfolioSummary['active_positions_count'] }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Holdings with Qty &gt; 0</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">Holdings with Qty &gt; 0</span>
                 </div>
 
                 <!-- Total Positions -->
-                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total Positions</span>
-                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-4 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Positions</span>
+                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ $portfolioSummary['total_positions_count'] }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Active &amp; closed positions</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">Active &amp; closed positions</span>
                 </div>
 
                 <!-- Companies Held -->
-                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Companies Held</span>
-                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-4 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Companies Held</span>
+                    <span class="text-base font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ $portfolioSummary['companies_held_count'] }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Distinct stocks tracked</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">Distinct stocks tracked</span>
                 </div>
 
                 <!-- Total Realized Profit -->
-                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[11px] font-semibold uppercase text-slate-400">Total Realized Profit</span>
+                <div class="p-4 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ __('reports.realized_pl') }}</span>
                     @php
                         $isRepProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $portfolioSummary['total_realized_profit'], '0');
                         $isRepProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $portfolioSummary['total_realized_profit'], '0');
                     @endphp
-                    <span class="text-base font-bold font-mono mt-1 block {{ $isRepProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isRepProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
+                    <span class="text-base font-bold font-mono mt-1.5 block tabular-nums {{ $isRepProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isRepProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
                         {{ \App\Support\Currency::formatConverted($portfolioSummary['total_realized_profit'], decimals: 2, showPlusSign: true) }}
                     </span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">Cumulative closed sales P&L</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">Cumulative closed sales P&L</span>
                 </div>
             </div>
         </div>
 
         <!-- 2. Transaction Activity Report -->
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-            <div class="pb-4 mb-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-xs p-5 sm:p-6">
+            <div class="pb-4 mb-5 border-b border-slate-200/80 dark:border-slate-700/80">
                 <h3 class="text-base font-bold text-slate-900 dark:text-white">2. {{ __('reports.historical_tx_activity') }}</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                     {{ __('reports.historical_tx_desc') }}
                 </p>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">BUY Orders</span>
-                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">BUY Orders</span>
+                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ $transactionActivity['total_buy_transactions'] }}
                     </span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">SELL Orders</span>
-                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">SELL Orders</span>
+                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ $transactionActivity['total_sell_transactions'] }}
                     </span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">BUY Quantity</span>
-                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">BUY Quantity</span>
+                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ number_format((float) $transactionActivity['total_buy_quantity'], 4) }}
                     </span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">SELL Quantity</span>
-                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">SELL Quantity</span>
+                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ number_format((float) $transactionActivity['total_sell_quantity'], 4) }}
                     </span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">BUY Amount</span>
-                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">BUY Amount</span>
+                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ \App\Support\Currency::formatConverted($transactionActivity['total_buy_amount']) }}
                     </span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">SELL Amount</span>
-                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">SELL Amount</span>
+                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ \App\Support\Currency::formatConverted($transactionActivity['total_sell_amount']) }}
                     </span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">Sold Cost Basis</span>
-                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1 block">
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Sold Cost Basis</span>
+                    <span class="text-sm font-bold font-mono text-slate-900 dark:text-white mt-1.5 block tabular-nums">
                         {{ \App\Support\Currency::formatConverted($transactionActivity['total_sell_cost']) }}
                     </span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
-                    <span class="block text-[10px] font-semibold uppercase text-slate-400">Realized Profit</span>
+                <div class="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/80">
+                    <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Realized Profit</span>
                     @php
                         $isActProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $transactionActivity['total_realized_profit'], '0');
                         $isActProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $transactionActivity['total_realized_profit'], '0');
                     @endphp
-                    <span class="text-sm font-bold font-mono mt-1 block {{ $isActProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isActProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
+                    <span class="text-sm font-bold font-mono mt-1.5 block tabular-nums {{ $isActProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isActProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white') }}">
                         {{ \App\Support\Currency::formatConverted($transactionActivity['total_realized_profit'], showPlusSign: true) }}
                     </span>
                 </div>
@@ -307,15 +307,15 @@
         </div>
 
         <!-- 3. Company-Wise Summary Report -->
-        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-            <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-slate-200/80 dark:border-slate-700/80 overflow-hidden">
+            <div class="p-5 border-b border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between">
                 <div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">3. {{ __('reports.company_wise_summary') }}</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         {{ __('reports.company_wise_desc') }}
                     </p>
                 </div>
-                <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-mono font-medium text-slate-500 dark:text-slate-400">
                     {{ count($companyWiseReport) }} Company Record(s)
                 </span>
             </div>
@@ -323,7 +323,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
-                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
+                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-700/80 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
                             <th class="py-3 px-4">Company</th>
                             <th class="py-3 px-4">Exchange</th>
                             <th class="py-3 px-4 text-center">BUY Tx</th>
@@ -337,12 +337,12 @@
                             <th class="py-3 px-4 text-right">Cost Basis</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
                         @forelse ($companyWiseReport as $item)
-                            <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-900/40 transition-colors">
+                            <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
                                 <td class="py-3 px-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="px-2 py-0.5 rounded font-mono text-xs font-bold bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700">
+                                        <span class="inline-flex px-1.5 py-0.5 rounded font-mono text-xs font-bold text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60">
                                             {{ $item['company']->symbol }}
                                         </span>
                                         <span class="font-medium text-slate-900 dark:text-white truncate max-w-xs">{{ $item['company']->name }}</span>
@@ -351,23 +351,23 @@
                                 <td class="py-3 px-4 text-slate-600 dark:text-slate-300 font-medium">
                                     {{ $item['company']->exchange }}
                                 </td>
-                                <td class="py-3 px-4 text-center font-mono">{{ $item['buy_transactions_count'] }}</td>
-                                <td class="py-3 px-4 text-center font-mono">{{ $item['sell_transactions_count'] }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ number_format((float) $item['total_buy_quantity'], 4) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ number_format((float) $item['total_sell_quantity'], 4) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($item['total_buy_amount']) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($item['total_sell_amount']) }}</td>
+                                <td class="py-3 px-4 text-center font-mono tabular-nums text-slate-600 dark:text-slate-400">{{ $item['buy_transactions_count'] }}</td>
+                                <td class="py-3 px-4 text-center font-mono tabular-nums text-slate-600 dark:text-slate-400">{{ $item['sell_transactions_count'] }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ number_format((float) $item['total_buy_quantity'], 4) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ number_format((float) $item['total_sell_quantity'], 4) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($item['total_buy_amount']) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($item['total_sell_amount']) }}</td>
                                 @php
                                     $isCpProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $item['total_realized_profit'], '0');
                                     $isCpProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $item['total_realized_profit'], '0');
                                 @endphp
-                                <td class="py-3 px-4 text-right font-mono font-bold {{ $isCpProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isCpProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
+                                <td class="py-3 px-4 text-right font-mono tabular-nums font-bold {{ $isCpProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isCpProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
                                     {{ \App\Support\Currency::formatConverted($item['total_realized_profit'], showPlusSign: true) }}
                                 </td>
-                                <td class="py-3 px-4 text-right font-mono font-semibold text-slate-900 dark:text-slate-100">
+                                <td class="py-3 px-4 text-right font-mono tabular-nums font-medium text-slate-900 dark:text-slate-100">
                                     {{ number_format((float) $item['current_quantity'], 4) }}
                                 </td>
-                                <td class="py-3 px-4 text-right font-mono font-bold text-slate-900 dark:text-slate-100">
+                                <td class="py-3 px-4 text-right font-mono tabular-nums font-bold text-slate-900 dark:text-slate-100">
                                     {{ \App\Support\Currency::formatConverted($item['current_inventory_cost']) }}
                                 </td>
                             </tr>
@@ -384,15 +384,15 @@
         </div>
 
         <!-- 4. Monthly Activity Report & Visual Trend -->
-        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-            <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-slate-200/80 dark:border-slate-700/80 overflow-hidden">
+            <div class="p-5 border-b border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between">
                 <div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">4. {{ __('reports.monthly_activity') }}</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         {{ __('reports.monthly_activity_desc') }}
                     </p>
                 </div>
-                <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-mono font-medium text-slate-500 dark:text-slate-400">
                     {{ count($monthlyReport) }} Month(s)
                 </span>
             </div>
@@ -400,7 +400,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
-                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
+                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-700/80 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
                             <th class="py-3 px-4">Month</th>
                             <th class="py-3 px-4 text-center">BUY Tx</th>
                             <th class="py-3 px-4 text-center">SELL Tx</th>
@@ -411,23 +411,23 @@
                             <th class="py-3 px-4 text-right">Realized Profit / (Loss)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
                         @forelse ($monthlyReport as $m)
-                            <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-900/40 transition-colors">
+                            <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
                                 <td class="py-3 px-4 font-semibold text-slate-900 dark:text-white font-mono">
                                     {{ $m['month_name'] }}
                                 </td>
-                                <td class="py-3 px-4 text-center font-mono">{{ $m['buy_transactions_count'] }}</td>
-                                <td class="py-3 px-4 text-center font-mono">{{ $m['sell_transactions_count'] }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ number_format((float) $m['total_buy_quantity'], 4) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ number_format((float) $m['total_sell_quantity'], 4) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($m['total_buy_amount']) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($m['total_sell_amount']) }}</td>
+                                <td class="py-3 px-4 text-center font-mono tabular-nums text-slate-600 dark:text-slate-400">{{ $m['buy_transactions_count'] }}</td>
+                                <td class="py-3 px-4 text-center font-mono tabular-nums text-slate-600 dark:text-slate-400">{{ $m['sell_transactions_count'] }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ number_format((float) $m['total_buy_quantity'], 4) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ number_format((float) $m['total_sell_quantity'], 4) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($m['total_buy_amount']) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($m['total_sell_amount']) }}</td>
                                 @php
                                     $isMProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $m['total_realized_profit'], '0');
                                     $isMProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $m['total_realized_profit'], '0');
                                 @endphp
-                                <td class="py-3 px-4 text-right font-mono font-bold {{ $isMProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isMProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
+                                <td class="py-3 px-4 text-right font-mono tabular-nums font-bold {{ $isMProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isMProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
                                     {{ \App\Support\Currency::formatConverted($m['total_realized_profit'], showPlusSign: true) }}
                                 </td>
                             </tr>
@@ -444,15 +444,15 @@
         </div>
 
         <!-- 5. Annual Summary Report -->
-        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-            <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-slate-200/80 dark:border-slate-700/80 overflow-hidden">
+            <div class="p-5 border-b border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between">
                 <div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">5. {{ __('reports.annual_summary') }}</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         {{ __('reports.annual_summary_desc') }}
                     </p>
                 </div>
-                <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-mono font-medium text-slate-500 dark:text-slate-400">
                     {{ count($annualReport) }} Calendar Year(s)
                 </span>
             </div>
@@ -460,7 +460,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
-                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
+                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-700/80 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
                             <th class="py-3 px-4">Year</th>
                             <th class="py-3 px-4 text-center">BUY Tx</th>
                             <th class="py-3 px-4 text-center">SELL Tx</th>
@@ -471,23 +471,23 @@
                             <th class="py-3 px-4 text-right">Realized Profit / (Loss)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
                         @forelse ($annualReport as $yr)
-                            <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-900/40 transition-colors">
+                            <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
                                 <td class="py-3 px-4 font-bold text-slate-900 dark:text-white font-mono text-sm">
                                     {{ $yr['year'] }}
                                 </td>
-                                <td class="py-3 px-4 text-center font-mono">{{ $yr['buy_transactions_count'] }}</td>
-                                <td class="py-3 px-4 text-center font-mono">{{ $yr['sell_transactions_count'] }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ number_format((float) $yr['total_buy_quantity'], 4) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ number_format((float) $yr['total_sell_quantity'], 4) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($yr['total_buy_amount']) }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($yr['total_sell_amount']) }}</td>
+                                <td class="py-3 px-4 text-center font-mono tabular-nums text-slate-600 dark:text-slate-400">{{ $yr['buy_transactions_count'] }}</td>
+                                <td class="py-3 px-4 text-center font-mono tabular-nums text-slate-600 dark:text-slate-400">{{ $yr['sell_transactions_count'] }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ number_format((float) $yr['total_buy_quantity'], 4) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ number_format((float) $yr['total_sell_quantity'], 4) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($yr['total_buy_amount']) }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100">{{ \App\Support\Currency::formatConverted($yr['total_sell_amount']) }}</td>
                                 @php
                                     $isYrProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $yr['total_realized_profit'], '0');
                                     $isYrProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $yr['total_realized_profit'], '0');
                                 @endphp
-                                <td class="py-3 px-4 text-right font-mono font-bold {{ $isYrProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isYrProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
+                                <td class="py-3 px-4 text-right font-mono tabular-nums font-bold {{ $isYrProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isYrProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
                                     {{ \App\Support\Currency::formatConverted($yr['total_realized_profit'], showPlusSign: true) }}
                                 </td>
                             </tr>
@@ -504,15 +504,15 @@
         </div>
 
         <!-- 6. Realized Profit Analysis by Company -->
-        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-            <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-slate-200/80 dark:border-slate-700/80 overflow-hidden">
+            <div class="p-5 border-b border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between">
                 <div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">6. {{ __('reports.realized_pl_analysis') }}</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         {{ __('reports.realized_pl_analysis_desc') }}
                     </p>
                 </div>
-                <span class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-mono font-medium text-slate-500 dark:text-slate-400">
                     {{ count($realizedProfitAnalysis) }} Closed Holdings
                 </span>
             </div>
@@ -520,7 +520,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
-                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold uppercase tracking-wider text-[11px]">
+                        <tr class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-700/80 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
                             <th class="py-3 px-4">Company</th>
                             <th class="py-3 px-4">Symbol</th>
                             <th class="py-3 px-4 text-center">Closed Orders</th>
@@ -529,29 +529,29 @@
                             <th class="py-3 px-4 text-right">Realized Profit / (Loss)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
                         @forelse ($realizedProfitAnalysis as $rp)
                             @php
                                 $isRpProfPos = \App\Services\Financial\FinancialMath::greaterThan((string) $rp['realized_profit'], '0');
                                 $isRpProfNeg = \App\Services\Financial\FinancialMath::lessThan((string) $rp['realized_profit'], '0');
                             @endphp
-                            <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-900/40 transition-colors">
-                                <td class="py-3 px-4 font-semibold text-slate-900 dark:text-white">
+                            <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
+                                <td class="py-3 px-4 font-medium text-slate-900 dark:text-white">
                                     {{ $rp['company']->name }}
                                 </td>
                                 <td class="py-3 px-4">
-                                    <span class="px-2 py-0.5 rounded font-mono text-xs font-bold bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700">
+                                    <span class="inline-flex px-1.5 py-0.5 rounded font-mono text-xs font-bold text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60">
                                         {{ $rp['company']->symbol }}
                                     </span>
                                 </td>
-                                <td class="py-3 px-4 text-center font-mono">{{ $rp['sell_transactions_count'] }}</td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-900 dark:text-slate-100 font-semibold">
+                                <td class="py-3 px-4 text-center font-mono tabular-nums text-slate-600 dark:text-slate-400">{{ $rp['sell_transactions_count'] }}</td>
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-900 dark:text-slate-100 font-medium">
                                     {{ \App\Support\Currency::formatConverted($rp['total_sell_revenue']) }}
                                 </td>
-                                <td class="py-3 px-4 text-right font-mono text-slate-600 dark:text-slate-400">
+                                <td class="py-3 px-4 text-right font-mono tabular-nums text-slate-600 dark:text-slate-400">
                                     {{ \App\Support\Currency::formatConverted($rp['total_sell_cost_basis']) }}
                                 </td>
-                                <td class="py-3 px-4 text-right font-mono font-bold {{ $isRpProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isRpProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
+                                <td class="py-3 px-4 text-right font-mono tabular-nums font-bold {{ $isRpProfPos ? 'text-emerald-600 dark:text-emerald-400' : ($isRpProfNeg ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400') }}">
                                     {{ \App\Support\Currency::formatConverted($rp['realized_profit'], showPlusSign: true) }}
                                 </td>
                             </tr>
